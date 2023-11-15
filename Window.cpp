@@ -119,6 +119,24 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow->camara = !theWindow->camara;
 	}
 
+	if (key == GLFW_KEY_1)
+	{
+		if(action == GLFW_PRESS) theWindow->flipper1 = true;
+		else theWindow->flipper1 = false;
+	} 
+
+	if (key == GLFW_KEY_2)
+	{
+		if (action == GLFW_PRESS) theWindow->flipper2 = true;
+		else theWindow->flipper2 = false;
+	}
+
+	if (key == GLFW_KEY_3)
+	{
+		if (action == GLFW_PRESS) theWindow->flipper3 = true;
+		else theWindow->flipper3 = false;
+	}
+
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)

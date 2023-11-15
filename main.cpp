@@ -523,6 +523,14 @@ int main()
 	bool cambioPersonaje = false;
 	glm::vec3 posicionGojo = glm::vec3(90.0f, 240.0f, 427.0f);
 	//float rotacionGojo = 180.0f;
+
+
+	// variables para el movimiento de los flippers
+	float flipper1 = 0.0f;
+	float flipper2 = 0.0f;
+	float flipper3 = 0.0f;
+
+	float rotaFlipperOffset = 2.0f;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -735,31 +743,67 @@ int main()
 
 
 		// ======================== Flippers ========================
+
+		// flipper 1
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(353.0f, 185.0f, -95.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(20.0f - flipper1), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		dedoSukuna_M.RenderModel();
 
+		// flipper 2
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(353.0f, 185.0f, -50.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(160.0f + flipper2), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		dedoSukuna_M.RenderModel();
 
+		// flipper 3
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(300.0f, 189.0f, -115.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(20.0f - flipper3), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		dedoSukuna_M.RenderModel();
 
+		// movimiento de cada flipper 
+		if (mainWindow.getFlipper1()) {
+			if (flipper1 <= 60) {
+				flipper1 += rotaFlipperOffset * deltaTime;
+			}
+		}
+		else {
+			if (flipper1 > 0) {
+				flipper1 -= rotaFlipperOffset * deltaTime;
+			}
+		}
 
+		if (mainWindow.getFlipper2()) {
+			if (flipper2 <= 60) {
+				flipper2 += rotaFlipperOffset * deltaTime;
+			}
+		}
+		else {
+			if (flipper2 > 0) {
+				flipper2 -= rotaFlipperOffset * deltaTime;
+			}
+		}
+
+		if (mainWindow.getFlipper3()) {
+			if (flipper3 <= 60) {
+				flipper3 += rotaFlipperOffset * deltaTime;
+			}
+		}
+		else {
+			if (flipper3 > 0) {
+				flipper3 -= rotaFlipperOffset * deltaTime;
+			}
+		}
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);

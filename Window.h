@@ -16,7 +16,9 @@ public:
 	GLfloat getmuevex() { return muevex; }
 	GLfloat getClickDerecho() { return clickDerecho;  }
 	bool getCamara() { return camara; }
-
+	bool getFlipper1() { return flipper1;  }
+	bool getFlipper2() { return flipper2; }
+	bool getFlipper3() { return flipper3; }
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -37,6 +39,7 @@ private:
 	bool camara;
 	bool mouseFirstMoved;
 	bool clickDerecho = false;
+	bool flipper1 = false, flipper2 = false, flipper3 = false;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
 	static void ManejaClickRaton(GLFWwindow* window, int button, int action, int mods);
