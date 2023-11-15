@@ -79,6 +79,13 @@ Texture NumerosTexture;
 Texture Numero1Texture;
 Texture Numero2Texture;
 
+
+
+Model Kitt_M;
+Model Llanta_M;
+Model Blackhawk_M;
+Model torsoGojo;
+
 Skybox skybox;
 
 //materiales
@@ -221,6 +228,20 @@ void CreateObjects()
 		0.5f, 0.0f, 0.5f,		0.25f, 0.67f,		0.0f, -1.0f, 0.0f,
 		0.5f, 0.0f, -0.5f,		0.25f, 1.0f,		0.0f, -1.0f, 0.0f,
 		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+
+	};
+
+	unsigned int piramideIndices[] = {
+		0, 2, 1,
+		0, 1, 3,
+	};
+
+	GLfloat piramideVertices[] = {
+		0.0f, 0.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //G - 0
+		1.0f, 1.52f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //F - 1
+		2.0f, 0.0f, 0.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //E - 2
+
+		0.0f, 3.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
 
 	};
 
