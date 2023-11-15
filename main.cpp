@@ -231,9 +231,16 @@ void CreateObjects()
 
 	};
 
+	//================================================Primitiva piramide ==========================================================
 	unsigned int piramideIndices[] = {
 		0, 2, 1,
 		0, 1, 3,
+		0, 3, 4,
+		0, 4, 5,
+		5, 0, 6,
+		3, 6, 0,
+		3, 2, 6,
+		3, 5, 6,
 	};
 
 	GLfloat piramideVertices[] = {
@@ -242,6 +249,41 @@ void CreateObjects()
 		2.0f, 0.0f, 0.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //E - 2
 
 		0.0f, 3.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
+
+		-1.0f, 1.5f, 0.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //I - 4
+
+		-2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //J - 5
+
+		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //K - 6
+
+	};
+
+	unsigned int cuboIndices[] = {
+		0,1,2,
+		0,1,3,
+		0,3,5,
+		3,4,5,
+		4,5,7,
+		4,6,7,
+		1,2,7,
+		2,6,7,
+		0,7,5,
+		0,5,1, 
+		2,3,6,
+		3,6,4,
+	};
+
+	GLfloat cuboVertices[] = {
+		0.0f, 2.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //A - 0
+		0.0f, -2.0f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //B - 1
+		0.0f, -2.0f, 4.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //C - 2
+		0.0f, 2.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //D - 3
+
+		4.0f, 2.0f, 4.0f,   0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //E - 4
+		4.0f, 2.0f, 0.0f,   0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //F - 5
+
+		4.0f, -2.0f, 4.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //G - 6
+		4.0f, -2.0f, 0.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //H - 7
 
 	};
 
@@ -273,6 +315,14 @@ void CreateObjects()
 	Mesh* obj7 = new Mesh();
 	obj7->CreateMesh(numeroVertices, numeroIndices, 32, 6);
 	meshList.push_back(obj7);
+
+	Mesh* obj8 = new Mesh();
+	obj8->CreateMesh(piramideVertices, piramideIndices, 56, 24);
+	meshList.push_back(obj8);
+
+	Mesh* obj9 = new Mesh();
+	obj9->CreateMesh(cuboVertices, cuboIndices, 64, 36);
+	meshList.push_back(obj9);
 
 }
 
@@ -528,6 +578,15 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
 		meshList[2]->RenderMesh();
+
+
+		//==================================Instanciando primitiva===================================
+		model = glm::mat4(1.0);
+		//color = glm::vec3(0.0f, 0.0f, 1.0f);
+		model = glm::translate(model, glm::vec3(-50.0f, 6.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		meshList[8]->RenderMesh();
 
 		
 		// ======================== bola 1 ========================
