@@ -286,7 +286,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.5f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 10.0f, 0.5f);
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -497,7 +497,8 @@ int main()
 
 		// ======================== palanca ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(390.0f + muevePalanca, 184.0f, -155.0f));
+		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 178.0f, -155.0f));
+		//model = glm::rotate(model, glm::radians(3.0f), glm::vec3(0.0f, 0.0f, -1.0f));
 		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
