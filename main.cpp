@@ -84,6 +84,7 @@ Texture Numero2Texture;
 Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
+Model torsoGojo;
 
 Skybox skybox;
 
@@ -335,6 +336,10 @@ int main()
 
 	Model santuario_M = Model();
 	santuario_M.LoadModel("Models/SantuarioMalevolo/SantuarioMalevolo.obj");
+	
+	torsoGojo = Model();
+	torsoGojo.LoadModel("Models/Gojo/torsoSuperior.obj");
+
 
 
 	std::vector<std::string> skyboxFaces;
@@ -442,11 +447,23 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
+		//Para posicionar la camara en un lugar fijo
+		if ( mainWindow.getCamara() == true )
+		{	
+			glfwPollEvents();
+			camera.setPosition(0.0f, 3.5f, 0.5f);
+			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 
-		//Recibir eventos del usuario
-		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		}
+		if ( mainWindow.getCamara() == false )
+		{
+			//Recibir eventos del usuario
+			glfwPollEvents();
+			camera.keyControl(mainWindow.getsKeys(), deltaTime);
+			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		}
+
+		
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -514,6 +531,16 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		bola_M.RenderModel();
+		
+
+
+		//=========================Torso gojo=========================================================
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-50.0f, 3.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torsoGojo.RenderModel();
 
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
