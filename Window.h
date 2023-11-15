@@ -15,6 +15,7 @@ public:
 	GLfloat getYChange();
 	GLfloat getmuevex() { return muevex; }
 	GLfloat getClickDerecho() { return clickDerecho;  }
+	bool getCamara() { return camara; }
 
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
@@ -33,6 +34,7 @@ private:
 	GLfloat xChange;
 	GLfloat yChange;
 	GLfloat muevex;
+	bool camara;
 	bool mouseFirstMoved;
 	bool clickDerecho = false;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);

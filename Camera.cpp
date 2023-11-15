@@ -8,7 +8,7 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 	worldUp = startUp;
 	yaw = startYaw;
 	pitch = startPitch;
-	front = glm::vec3(0.0f, 0.0f, -1.0f);
+	front = glm::vec3(1.0f, 5.0f, 1.0f);
 
 	moveSpeed = startMoveSpeed;
 	turnSpeed = startTurnSpeed;
@@ -87,8 +87,16 @@ void Camera::update()
 
 	right = glm::normalize(glm::cross(front, worldUp));
 	up = glm::normalize(glm::cross(right, front));
+
 }
 
+void Camera::setPosition(float x, float y, float z ) {
+	position = glm::vec3(x, y, z);
+
+
+
+
+}
 
 Camera::~Camera()
 {
