@@ -306,7 +306,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 10.0f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -402,7 +402,7 @@ int main()
 	pointLightsMap["santuario"] = PointLight(
 		1.0f, 0.0f, 0.0f,
 		4.0f, 4.0f,
-		220.0f, 195.0f, -75.0f,
+		85.0f, 185.0f, 105.0f,
 		0.005f, 0.003f, 0.004f
 	);
 	pointLightCount++;
@@ -470,6 +470,11 @@ int main()
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+
+		// camara isometrica
+		if (!mainWindow.getCamara()) {
+			camera.setPosition(78.5, 550.0f, 350.0f);
+		}
 
 
 		// Clear the window
@@ -539,26 +544,26 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		bola_M.RenderModel();
 		
-		// Para posicionar la camara en el avatar
+		// ========================= Para posicionar la camara en el avatar =========================
 		if (mainWindow.getCamara()) {
 			if (!cambioPersonaje) {
-				camera.setPosition(posicionGojo.x, posicionGojo.y + 250.0f, posicionGojo.z + 300.0f);
+				camera.setPosition(posicionGojo.x, posicionGojo.y + 35.0f, posicionGojo.z + 40.0f);
 				cambioPersonaje = true;
 			}
 
-			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 250.0f, camera.getCameraPosition().z - 300.0f);
-
-
+			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 35.0f, camera.getCameraPosition().z - 40.0f);
 		}
 		else {
 			cambioPersonaje = false;
+			std::cout << posicionGojo.x << " - " << posicionGojo.y << " - " << posicionGojo.z << " - " << std::endl;
 		}
+
 
 		// ========================= Piernas gojo =========================
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, posicionGojo);
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -581,7 +586,9 @@ int main()
 
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(15.0f, -1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(15.0f, -1.0f, -90.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
