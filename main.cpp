@@ -37,6 +37,11 @@ Adicional.- Textura Animada
 #include"Model.h"
 #include "Skybox.h"
 
+// Para usar mapas de luces
+#include "Map_T.h"
+#include <map>
+#include <string>
+
 //para iluminación
 #include "CommonValues.h"
 #include "DirectionalLight.h"
@@ -328,6 +333,8 @@ int main()
 	Model resorte_M = Model();
 	resorte_M.LoadModel("Models/Pinball/resorte.obj");
 
+	Model santuario_M = Model();
+	santuario_M.LoadModel("Models/SantuarioMalevolo/SantuarioMalevolo.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -343,23 +350,45 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
-
-	//luz direccional, sólo 1 y siempre debe de existir
+	// ===========================================================
+	// ========================== Luces ==========================
+	// ===========================================================
+	
+	// luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.5f, 0.5f,
 		0.0f, 0.0f, -1.0f);
-	//contador de luces puntuales
-	unsigned int pointLightCount = 0;
 	
+	// contador de luces puntuales
+	unsigned int pointLightCount = 0;
 	unsigned int spotLightCount = 0;
-	//linterna
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+	
+	// ================== Mapas de luces ==================
+	std::map<std::string, PointLight> pointLightsMap;
+	std::map<std::string, SpotLight> spotLightsMap;
+
+	// mapas auxiliares para guardar todas las luces
+	std::map<std::string, PointLight> pointLightsMapAux;
+	std::map<std::string, SpotLight> spotLightsMapAux;
+
+	// ================== Linterna ==================
+	spotLightsMap["linterna"] = SpotLight(1.0f, 1.0f, 1.0f,
 		0.0f, 2.0f,
 		0.0f, 0.0f, 0.0f,
 		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
+		0.8f, 0.05f, 0.01f,
 		5.0f);
 	spotLightCount++;
+
+	// ================== Luz Santuario ==================
+	pointLightsMap["santuario"] = PointLight(
+		1.0f, 0.0f, 0.0f,
+		4.0f, 4.0f,
+		220.0f, 195.0f, -75.0f,
+		0.005f, 0.003f, 0.004f
+	);
+	pointLightCount++;
+
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
@@ -442,7 +471,12 @@ int main()
 		// luz ligada a la cámara de tipo flash
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		spotLightsMap["linterna"].SetFlash(lowerLight, camera.getCameraDirection());
+
+		// =================== Paso de map a array =================== 
+		// pasamos el contenido de los mapas a las listas
+		Map_T::toArray(pointLightsMap, pointLights, MAX_POINT_LIGHTS);
+		Map_T::toArray(spotLightsMap, spotLights, MAX_SPOT_LIGHTS);
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
@@ -480,12 +514,6 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		bola_M.RenderModel();
-		
-		//blending: transparencia o traslucidez
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
@@ -497,19 +525,20 @@ int main()
 
 		// ======================== palanca ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 178.0f, -155.0f));
-		//model = glm::rotate(model, glm::radians(3.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 182.0f, -155.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		palanca_M.RenderModel();
 
+		// colocamos de nuevo el color en blanco para las siguientes texturas
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 		// ======================== resorte ========================
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(460.0f, 180.0f, -155.0f));
 		model = glm::scale(model, glm::vec3((1.0f * contraeResorte) / 100, 1.0f, 1.0f));
-		color = glm::vec3(0.0f, 0.0f, 0.0f);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		resorte_M.RenderModel();
@@ -545,6 +574,20 @@ int main()
 			}
 		}
 
+		// ======================== Santuario Malevolo ========================
+		model = modelaux;
+		glm::vec3 posicionSantuario = glm::vec3(220.0f, 215.0f, -75.0f);
+		model = glm::translate(model, glm::vec3(220.0f, 215.0f, -75.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		santuario_M.RenderModel();
+
+
+		//blending: transparencia o traslucidez
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// Reinicia el salto cuando la pelota toca el suelo
 		if (nuevaAltura <= 0.0f) {

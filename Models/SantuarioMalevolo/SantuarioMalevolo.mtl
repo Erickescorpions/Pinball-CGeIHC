@@ -1,0 +1,72 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 14.11.2023 20:01:55
+
+newmtl Extra
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\ExtraStuff_Glowless_CM.tga
+	map_Kd D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\ExtraStuff_Glowless_CM.tga
+
+newmtl BullSkulls
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Bull_Skull_CM.tga
+	map_Kd D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Bull_Skull_CM.tga
+
+newmtl Mouth
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Mouth_Glowless_CM.tga
+	map_Kd D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Mouth_Glowless_CM.tga
+
+newmtl HumanSkulls
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Human_Skull_CM.tga
+	map_Kd D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Human_Skull_CM.tga
+
+newmtl Shrine
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Shrine_CM.tga
+	map_Kd D:\Descargas\malevolent-shrine-no-glow-jujutsu-kaisen\textures\Shrine_CM.tga
