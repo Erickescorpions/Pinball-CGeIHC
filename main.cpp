@@ -424,7 +424,7 @@ int main()
 	
 	// luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f,
+		0.3f, 0.3f,
 		0.0f, 0.0f, -1.0f);
 	
 	// contador de luces puntuales
@@ -448,14 +448,18 @@ int main()
 		5.0f);
 	spotLightCount++;
 
+	// ================== Luz Todo Tablero ==================
 	// ================== Luz Santuario ==================
-	pointLightsMap["santuario"] = PointLight(
+	spotLightsMap["santuario"] = SpotLight(
 		1.0f, 0.0f, 0.0f,
-		4.0f, 4.0f,
-		85.0f, 185.0f, 105.0f,
-		0.005f, 0.003f, 0.004f
+		2.0f, 2.0f,
+		85.0f, 250.0f, 75.0f,
+		0.0f, -1.0f, 0.0f,
+		//0.008f, 0.003f, 0.004f,
+		0.5f, 0.001f, 0.0004f,
+		50.0f
 	);
-	pointLightCount++;
+	spotLightCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -505,7 +509,7 @@ int main()
 
 	// variables para la camara del avatar
 	bool cambioPersonaje = false;
-	glm::vec3 posicionGojo = glm::vec3(-500.0f, 0.0f, 0.0f);
+	glm::vec3 posicionGojo = glm::vec3(90.0f, 240.0f, 427.0f);
 	//float rotacionGojo = 180.0f;
 	
 	////Loop mientras no se cierra la ventana
@@ -646,8 +650,11 @@ int main()
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(15.0f, -1.0f, -90.0f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
+		// dejarlas comentadas
+		
+		//model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -706,9 +713,9 @@ int main()
 
 		// ======================== Santuario Malevolo ========================
 		model = modelaux;
-		glm::vec3 posicionSantuario = glm::vec3(220.0f, 215.0f, -75.0f);
-		model = glm::translate(model, glm::vec3(220.0f, 215.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		glm::vec3 posicionSantuario = glm::vec3(220.0f, 245.0f, -75.0f);
+		model = glm::translate(model, glm::vec3(175.0f, 215.0f, -75.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
