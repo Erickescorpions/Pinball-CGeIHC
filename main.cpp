@@ -79,13 +79,6 @@ Texture NumerosTexture;
 Texture Numero1Texture;
 Texture Numero2Texture;
 
-
-
-Model Kitt_M;
-Model Llanta_M;
-Model Blackhawk_M;
-Model torsoGojo;
-
 Skybox skybox;
 
 //materiales
@@ -314,12 +307,6 @@ int main()
 	Numero2Texture.LoadTextureA();
 
 
-	Kitt_M = Model();
-	Kitt_M.LoadModel("Models/kitt_optimizado.obj");
-	Llanta_M = Model();
-	Llanta_M.LoadModel("Models/llanta_optimizada.obj");
-	Blackhawk_M = Model();
-	Blackhawk_M.LoadModel("Models/uh60.obj");
 
 	Model bola_M = Model();
 	bola_M.LoadModel("Models/Bola/bola.obj");
@@ -337,9 +324,14 @@ int main()
 	Model santuario_M = Model();
 	santuario_M.LoadModel("Models/SantuarioMalevolo/SantuarioMalevolo.obj");
 	
-	torsoGojo = Model();
-	torsoGojo.LoadModel("Models/Gojo/torsoSuperior.obj");
+	Model torsoGojo_M = Model();
+	torsoGojo_M.LoadModel("Models/Gojo/torsoSuperior.obj");
 
+	Model cabezaGojo_M = Model();
+	cabezaGojo_M.LoadModel("Models/Gojo/cara.obj");
+
+	Model piernasGojo_M = Model();
+	piernasGojo_M.LoadModel("Models/Gojo/piernasGojo.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -438,6 +430,12 @@ int main()
 	const float sueltaPalancaOffset = 2.0f;
 	const float expandeResorteOffset = 2.0f;
 	bool animacionResorteExpande = true;
+
+
+	// variables para la camara del avatar
+	bool cambioPersonaje = false;
+	glm::vec3 posicionGojo = glm::vec3(-500.0f, 0.0f, 0.0f);
+	//float rotacionGojo = 180.0f;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -447,23 +445,11 @@ int main()
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 
-		//Para posicionar la camara en un lugar fijo
-		if ( mainWindow.getCamara() == true )
-		{	
-			glfwPollEvents();
-			camera.setPosition(0.0f, 3.5f, 0.5f);
-			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		//Recibir eventos del usuario
+		glfwPollEvents();
+		camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 
-		}
-		if ( mainWindow.getCamara() == false )
-		{
-			//Recibir eventos del usuario
-			glfwPollEvents();
-			camera.keyControl(mainWindow.getsKeys(), deltaTime);
-			camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-		}
-
-		
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -532,19 +518,49 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		bola_M.RenderModel();
 		
+		// Para posicionar la camara en el avatar
+		if (mainWindow.getCamara()) {
+			if (!cambioPersonaje) {
+				camera.setPosition(posicionGojo.x, posicionGojo.y + 250.0f, posicionGojo.z + 300.0f);
+				cambioPersonaje = true;
+			}
+
+			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 250.0f, camera.getCameraPosition().z - 300.0f);
 
 
-		//=========================Torso gojo=========================================================
+		}
+		else {
+			cambioPersonaje = false;
+		}
+
+		// ========================= Piernas gojo =========================
+
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-50.0f, 3.0f, 0.0f));
+		model = glm::translate(model, posicionGojo);
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		torsoGojo.RenderModel();
+		piernasGojo_M.RenderModel();
+
+		// ========================= Torso gojo =========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(3.0f, 10.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torsoGojo_M.RenderModel();
+
+		// ========================= Cabeza gojo =========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(5.0f, 51.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cabezaGojo_M.RenderModel();
 
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(15.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(15.0f, -1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -552,8 +568,8 @@ int main()
 
 		// ======================== palanca ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 182.0f, -155.0f));
-		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 179.0f, -155.0f));
+		//model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -564,7 +580,7 @@ int main()
 
 		// ======================== resorte ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(460.0f, 180.0f, -155.0f));
+		model = glm::translate(model, glm::vec3(460.0f, 178.0f, -155.0f));
 		model = glm::scale(model, glm::vec3((1.0f * contraeResorte) / 100, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));

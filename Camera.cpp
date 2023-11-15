@@ -92,10 +92,6 @@ void Camera::update()
 
 void Camera::setPosition(float x, float y, float z ) {
 	position = glm::vec3(x, y, z);
-
-
-
-
 }
 
 Camera::~Camera()
