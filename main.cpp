@@ -260,7 +260,7 @@ void CreateObjects()
 
 	unsigned int cuboIndices[] = {
 		0,1,2,
-		0,1,3,
+		2,0,3,
 		0,3,5,
 		3,4,5,
 		4,5,7,
@@ -268,7 +268,7 @@ void CreateObjects()
 		1,2,7,
 		2,6,7,
 		0,7,5,
-		0,5,1, 
+		0,7,1, 
 		2,3,6,
 		3,6,4,
 	};
