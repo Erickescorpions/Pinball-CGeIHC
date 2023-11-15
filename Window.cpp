@@ -78,6 +78,7 @@ void Window::createCallbacks()
 {
 	glfwSetKeyCallback(mainWindow, ManejaTeclado);
 	glfwSetCursorPosCallback(mainWindow, ManejaMouse);
+	glfwSetMouseButtonCallback(mainWindow, ManejaClickRaton);
 }
 GLfloat Window::getXChange()
 {
@@ -113,8 +114,6 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow-> muevex -= 1.0;
 	}
 
-
-
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)
@@ -146,6 +145,24 @@ void Window::ManejaMouse(GLFWwindow* window, double xPos, double yPos)
 
 	theWindow->lastX = xPos;
 	theWindow->lastY = yPos;
+}
+
+void Window::ManejaClickRaton(GLFWwindow* window, int button, int action, int mods)
+{
+	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+
+	// Detecta cuando se deja presionado el click derecho
+	if (button == GLFW_MOUSE_BUTTON_RIGHT)
+	{
+		if (action == GLFW_PRESS)
+		{
+			theWindow->clickDerecho = true;
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			theWindow->clickDerecho = false;
+		}
+	}
 }
 
 

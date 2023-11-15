@@ -14,6 +14,8 @@ public:
 	GLfloat getXChange();
 	GLfloat getYChange();
 	GLfloat getmuevex() { return muevex; }
+	GLfloat getClickDerecho() { return clickDerecho;  }
+
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -32,8 +34,9 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	bool mouseFirstMoved;
+	bool clickDerecho = false;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
-
+	static void ManejaClickRaton(GLFWwindow* window, int button, int action, int mods);
 };
 

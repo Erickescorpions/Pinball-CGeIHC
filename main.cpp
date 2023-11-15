@@ -319,6 +319,17 @@ int main()
 	bola_M.LoadModel("Models/Bola/bola.obj");
 
 
+	Model pinball_M = Model();
+	pinball_M.LoadModel("Models/Pinball/pinball.obj");
+
+	Model palanca_M = Model();
+	palanca_M.LoadModel("Models/Pinball/palanca.obj");
+
+	Model resorte_M = Model();
+	resorte_M.LoadModel("Models/Pinball/resorte.obj");
+
+
+
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
@@ -380,6 +391,19 @@ int main()
 	float movOffset = 0.05f;
 	float movBola = 0.0f;
 	float tiempoTranscurrido = 0.0f;
+
+
+	// variables para la animacion del resorte/palanca
+	bool animacionResorteContrae = false;
+	const float contraeResorteOffset = 0.5f;
+	const float muevePalancaOffset = 0.5f;
+	float contraeResorte = 100.0f;
+	float muevePalanca = 0.0f;
+
+
+	const float sueltaPalancaOffset = 2.0f;
+	const float expandeResorteOffset = 2.0f;
+	bool animacionResorteExpande = true;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -460,6 +484,66 @@ int main()
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+
+		// ======================== pinball ========================
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(15.0f, 0.0f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pinball_M.RenderModel();
+
+		// ======================== palanca ========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(390.0f + muevePalanca, 184.0f, -155.0f));
+		color = glm::vec3(1.0f, 0.0f, 0.0f);
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		palanca_M.RenderModel();
+
+
+		// ======================== resorte ========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(460.0f, 180.0f, -155.0f));
+		model = glm::scale(model, glm::vec3((1.0f * contraeResorte) / 100, 1.0f, 1.0f));
+		color = glm::vec3(0.0f, 0.0f, 0.0f);
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		resorte_M.RenderModel();
+
+		// ======================== animacion resorte/palanca ========================
+		if (mainWindow.getClickDerecho()) {
+			animacionResorteContrae = true;
+			animacionResorteExpande = false;
+		}
+		else {
+			animacionResorteContrae = false;
+			animacionResorteExpande = true;
+		}
+
+		if (animacionResorteContrae) {
+			
+			if (muevePalanca <= 35.0f) {
+				muevePalanca += muevePalancaOffset * deltaTime;
+				
+				if (contraeResorte >= 10.0f) {
+					contraeResorte -= contraeResorteOffset * deltaTime;
+				}
+			}
+		}
+
+		if (animacionResorteExpande) {
+			if (muevePalanca > 0.0f) {
+				muevePalanca -= sueltaPalancaOffset * deltaTime;
+
+				if (contraeResorte <= 100.0f) {
+					contraeResorte += expandeResorteOffset * deltaTime;
+				}
+			}
+		}
+
 
 		// Reinicia el salto cuando la pelota toca el suelo
 		if (nuevaAltura <= 0.0f) {
