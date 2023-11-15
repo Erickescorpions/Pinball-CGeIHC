@@ -85,6 +85,7 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 Model torsoGojo;
+Model ojo;
 
 Skybox skybox;
 
@@ -140,6 +141,12 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 		vertices[nOffset] = vec.x; vertices[nOffset + 1] = vec.y; vertices[nOffset + 2] = vec.z;
 	}
 }
+
+
+void crearOjo() {
+
+}
+
 
 
 void CreateObjects()
@@ -228,6 +235,20 @@ void CreateObjects()
 		0.5f, 0.0f, 0.5f,		0.25f, 0.67f,		0.0f, -1.0f, 0.0f,
 		0.5f, 0.0f, -0.5f,		0.25f, 1.0f,		0.0f, -1.0f, 0.0f,
 		-0.5f, 0.0f, -0.5f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+
+	};
+
+	unsigned int piramideIndices[] = {
+		0, 2, 1,
+		0, 1, 3,
+	};
+
+	GLfloat piramideVertices[] = {
+		0.0f, 0.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //G - 0
+		1.0f, 1.52f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //F - 1
+		2.0f, 0.0f, 0.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //E - 2
+
+		0.0f, 3.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
 
 	};
 
@@ -339,6 +360,8 @@ int main()
 	
 	torsoGojo = Model();
 	torsoGojo.LoadModel("Models/Gojo/torsoSuperior.obj");
+	ojo = Model();
+	ojo.LoadModel("Models/Pinball/ojo.obj");
 
 
 
@@ -540,7 +563,7 @@ int main()
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		torsoGojo.RenderModel();
+		ojo.RenderModel();
 
 		// ======================== pinball ========================
 		model = glm::mat4(1.0);
