@@ -404,6 +404,9 @@ int main()
 	Model piernasGojo_M = Model();
 	piernasGojo_M.LoadModel("Models/Gojo/piernasGojo.obj");
 
+	Model dedoSukuna_M = Model();
+	dedoSukuna_M.LoadModel("Models/DedoSukuna/DedoSukuna.obj");
+
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -424,7 +427,7 @@ int main()
 	
 	// luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.3f, 0.3f,
+		0.2f, 0.2f,
 		0.0f, 0.0f, -1.0f);
 	
 	// contador de luces puntuales
@@ -460,6 +463,15 @@ int main()
 		50.0f
 	);
 	spotLightCount++;
+
+	// ================== Luz Azul flippers ==================
+	pointLightsMap["flippers"] = PointLight(
+		0.0f, 1.0f, 1.0f,
+		0.5f, 0.5f,
+		78.0f, 180.0f, 227.0f,
+		0.01f, 0.001f, 0.0004f
+	);
+	pointLightCount++;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -653,8 +665,8 @@ int main()
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
 		
-		//model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -720,6 +732,33 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		santuario_M.RenderModel();
+
+
+		// ======================== Flippers ========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(353.0f, 185.0f, -95.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		dedoSukuna_M.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(353.0f, 185.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, glm::radians(160.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		dedoSukuna_M.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(300.0f, 189.0f, -115.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		dedoSukuna_M.RenderModel();
+
 
 
 		//blending: transparencia o traslucidez
