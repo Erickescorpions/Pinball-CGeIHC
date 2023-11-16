@@ -257,15 +257,10 @@ void CreateObjects()
 		0.0f, 0.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //G - 0
 		1.0f, 1.52f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //F - 1
 		2.0f, 0.0f, 0.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //E - 2
-
 		0.0f, 3.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
-
 		-1.0f, 1.5f, 0.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //I - 4
-
 		-2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //J - 5
-
 		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //K - 6
-
 	};
 
 	unsigned int cuboIndices[] = {
@@ -287,16 +282,6 @@ void CreateObjects()
 		//Cara inferior
 		20,21,22,
 		21,22,23,
-		/*0,3,5,
-		3,4,5,
-		4,5,7,
-		4,6,7,
-		1,2,7,
-		2,6,7,
-		0,7,5,
-		0,7,1, 
-		2,3,6,
-		3,6,4,*/
 	};
 
 	GLfloat cuboVertices[] = {
@@ -411,87 +396,7 @@ float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo
 bool animacion = false;
 
 //NEW// Keyframes
-//float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; 0
-//float posXPelota = 98.0f, posYPelota = 210.0f, posZPelota = -156.0f; 1
-//float posXPelota = 85.0f, posYPelota = 210.0f, posZPelota = -146.0f; 2
-//float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -136.0f; 3
-//float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -88.0f; 4
-// 
-//float posXPelota = 101.0f, posYPelota = 207.0f, posZPelota = -78.0f; 5 
-//float posXPelota = 105.0f, posYPelota = 207.0f, posZPelota = -98.0f; 6
-// 
-//float posXPelota = 120.0f, posYPelota = 207.0f, posZPelota = -108.0f; 7
-// 
-// 
-//float posXPelota = 210.0f, posYPelota = 200.0f, posZPelota = -108.0f; 8 
-//float posXPelota = 290.0f, posYPelota = 193.0f, posZPelota = -108.0f; 9 <--
-// 
-
-//float posXPelota = 195.0f, posYPelota = 202.0f, posZPelota = -75.0f; 10
-//float posXPelota = 390.0f, posYPelota = 184.0f, posZPelota = -75.0f; 11
-//float posXPelota = 393.0f, posYPelota = 184.0f, posZPelota = -95.0f; 12
-float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; // 13
-
-
-//KeyFrame[4].movPelotaX = -320.0f;
-//KeyFrame[4].movPelotaY = 26.0f;
-//KeyFrame[4].movPelotaZ = 68.0f;
-//
-//KeyFrame[5].movPelotaX = -297.0f;
-//KeyFrame[5].movPelotaY = 23.0f;
-//KeyFrame[5].movPelotaZ = 78.0f;
-//
-//KeyFrame[6].movPelotaX = -293.0f;
-//KeyFrame[6].movPelotaY = 23.0f;
-//KeyFrame[6].movPelotaZ = 58.0f;
-//
-//KeyFrame[7].movPelotaX = -278.0f;
-//KeyFrame[7].movPelotaY = 23.0f;
-//KeyFrame[7].movPelotaZ = 48.0f;
-//
-//KeyFrame[8].movPelotaX = -188.0f;
-//KeyFrame[8].movPelotaY = 16.0f;
-//KeyFrame[8].movPelotaZ = 48.0f;
-//
-//KeyFrame[9].movPelotaX = -108.0f;
-//KeyFrame[9].movPelotaY = 16.0f;
-//KeyFrame[9].movPelotaZ = 48.0f;
-
-//KeyFrame[10].movPelotaX = -203.0f;
-//KeyFrame[10].movPelotaY = 18.0f;
-//KeyFrame[10].movPelotaZ = 81.0f;
-//
-//KeyFrame[11].movPelotaX = -8.0f;
-//KeyFrame[11].movPelotaY = 0.0f;
-//KeyFrame[11].movPelotaZ = 81.0f;
-//
-//KeyFrame[12].movPelotaX = -6.0f;
-//KeyFrame[12].movPelotaY = 0.0f;
-//KeyFrame[12].movPelotaZ = 61.0f;
-//
-//KeyFrame[13].movPelotaX = 0.0f;
-//KeyFrame[13].movPelotaY = 0.0f;
-//KeyFrame[13].movPelotaZ = 0.0f;
-
-
-//KeyFrame[0].movPelotaX = 0.0f;
-//KeyFrame[0].movPelotaY = 0.0f;
-//KeyFrame[0].movPelotaZ = 0.0f;
-//
-//KeyFrame[1].movPelotaX = -300.0f;
-//KeyFrame[1].movPelotaY = 26.0f;
-//KeyFrame[1].movPelotaZ = 0.0f;
-//
-//KeyFrame[2].movPelotaX = -313.0f;
-//KeyFrame[2].movPelotaY = 26.0f;
-//KeyFrame[2].movPelotaZ = 10.0f;
-//
-//KeyFrame[3].movPelotaX = -320.0f;
-//KeyFrame[3].movPelotaY = 26.0f;
-//KeyFrame[3].movPelotaZ = 20.0f;
-
-
-
+float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; 
 float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f;
 
 #define MAX_FRAMES 100
