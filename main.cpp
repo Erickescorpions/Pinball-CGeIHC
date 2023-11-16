@@ -414,15 +414,63 @@ bool animacion = false;
 //float posXPelota = 85.0f, posYPelota = 210.0f, posZPelota = -146.0f; 2
 //float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -136.0f; 3
 //float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -88.0f; 4
-//float posXPelota = 101.0f, posYPelota = 207.0f, posZPelota = -78.0f;
-//float posXPelota = 105.0f, posYPelota = 207.0f, posZPelota = -98.0f;
-//float posXPelota = 120.0f, posYPelota = 207.0f, posZPelota = -108.0f;
-//float posXPelota = 210.0f, posYPelota = 200.0f, posZPelota = -108.0f;
-//float posXPelota = 290.0f, posYPelota = 193.0f, posZPelota = -108.0f;
-//float posXPelota = 195.0f, posYPelota = 202.0f, posZPelota = -75.0f;
-//float posXPelota = 390.0f, posYPelota = 184.0f, posZPelota = -75.0f;
-//float posXPelota = 393.0f, posYPelota = 184.0f, posZPelota = -95.0f;
-float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f;
+// 
+//float posXPelota = 101.0f, posYPelota = 207.0f, posZPelota = -78.0f; 5 
+//float posXPelota = 105.0f, posYPelota = 207.0f, posZPelota = -98.0f; 6
+// 
+//float posXPelota = 120.0f, posYPelota = 207.0f, posZPelota = -108.0f; 7
+// 
+// 
+//float posXPelota = 210.0f, posYPelota = 200.0f, posZPelota = -108.0f; 8 
+//float posXPelota = 290.0f, posYPelota = 193.0f, posZPelota = -108.0f; 9 <--
+// 
+
+//float posXPelota = 195.0f, posYPelota = 202.0f, posZPelota = -75.0f; 10
+//float posXPelota = 390.0f, posYPelota = 184.0f, posZPelota = -75.0f; 11
+//float posXPelota = 393.0f, posYPelota = 184.0f, posZPelota = -95.0f; 12
+float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; // 13
+
+
+//KeyFrame[4].movPelotaX = -320.0f;
+//KeyFrame[4].movPelotaY = 26.0f;
+//KeyFrame[4].movPelotaZ = 68.0f;
+//
+//KeyFrame[5].movPelotaX = -297.0f;
+//KeyFrame[5].movPelotaY = 23.0f;
+//KeyFrame[5].movPelotaZ = 78.0f;
+//
+//KeyFrame[6].movPelotaX = -293.0f;
+//KeyFrame[6].movPelotaY = 23.0f;
+//KeyFrame[6].movPelotaZ = 58.0f;
+//
+//KeyFrame[7].movPelotaX = -278.0f;
+//KeyFrame[7].movPelotaY = 23.0f;
+//KeyFrame[7].movPelotaZ = 48.0f;
+//
+//KeyFrame[8].movPelotaX = -188.0f;
+//KeyFrame[8].movPelotaY = 16.0f;
+//KeyFrame[8].movPelotaZ = 48.0f;
+//
+//KeyFrame[9].movPelotaX = -108.0f;
+//KeyFrame[9].movPelotaY = 16.0f;
+//KeyFrame[9].movPelotaZ = 48.0f;
+
+//KeyFrame[10].movPelotaX = -203.0f;
+//KeyFrame[10].movPelotaY = 18.0f;
+//KeyFrame[10].movPelotaZ = 81.0f;
+//
+//KeyFrame[11].movPelotaX = -8.0f;
+//KeyFrame[11].movPelotaY = 0.0f;
+//KeyFrame[11].movPelotaZ = 81.0f;
+//
+//KeyFrame[12].movPelotaX = -6.0f;
+//KeyFrame[12].movPelotaY = 0.0f;
+//KeyFrame[12].movPelotaZ = 61.0f;
+//
+//KeyFrame[13].movPelotaX = 0.0f;
+//KeyFrame[13].movPelotaY = 0.0f;
+//KeyFrame[13].movPelotaZ = 0.0f;
+
 
 //KeyFrame[0].movPelotaX = 0.0f;
 //KeyFrame[0].movPelotaY = 0.0f;
@@ -432,23 +480,21 @@ float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f;
 //KeyFrame[1].movPelotaY = 26.0f;
 //KeyFrame[1].movPelotaZ = 0.0f;
 //
-//KeyFrame[2].movPelotaX = -13.0f;
-//KeyFrame[2].movPelotaY = 0.0f;
+//KeyFrame[2].movPelotaX = -313.0f;
+//KeyFrame[2].movPelotaY = 26.0f;
 //KeyFrame[2].movPelotaZ = 10.0f;
 //
-//KeyFrame[3].movPelotaX = -7.0f;
-//KeyFrame[3].movPelotaY = 0.0f;
-//KeyFrame[3].movPelotaZ = 10.0f;
-//
-//KeyFrame[4].movPelotaX = 0.0f;
-//KeyFrame[4].movPelotaY = 0.0f;
-//KeyFrame[4].movPelotaZ = 48.0f;
+//KeyFrame[3].movPelotaX = -320.0f;
+//KeyFrame[3].movPelotaY = 26.0f;
+//KeyFrame[3].movPelotaZ = 20.0f;
+
+
 
 float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f;
 
 #define MAX_FRAMES 100
 int i_max_steps = 90;
-int i_curr_steps = 5;
+int i_curr_steps = 14;
 
 typedef struct _frame
 {
@@ -457,7 +503,7 @@ typedef struct _frame
 } FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 5;			//introducir datos
+int FrameIndex = 14;			//introducir datos
 bool play = false;
 int playIndex = 0;
 
@@ -748,17 +794,53 @@ int main()
 	KeyFrame[1].movPelotaY = 26.0f;
 	KeyFrame[1].movPelotaZ = 0.0f;
 
-	KeyFrame[2].movPelotaX = -13.0f;
-	KeyFrame[2].movPelotaY = 0.0f;
+	KeyFrame[2].movPelotaX = -313.0f;
+	KeyFrame[2].movPelotaY = 26.0f;
 	KeyFrame[2].movPelotaZ = 10.0f;
 
-	KeyFrame[3].movPelotaX = -7.0f;
-	KeyFrame[3].movPelotaY = 0.0f;
-	KeyFrame[3].movPelotaZ = 10.0f;
+	KeyFrame[3].movPelotaX = -320.0f;
+	KeyFrame[3].movPelotaY = 26.0f;
+	KeyFrame[3].movPelotaZ = 20.0f;
 
-	KeyFrame[4].movPelotaX = 0.0f;
-	KeyFrame[4].movPelotaY = 0.0f;
-	KeyFrame[4].movPelotaZ = 48.0f;
+	KeyFrame[4].movPelotaX = -320.0f;
+	KeyFrame[4].movPelotaY = 26.0f;
+	KeyFrame[4].movPelotaZ = 68.0f;
+
+	KeyFrame[5].movPelotaX = -297.0f;
+	KeyFrame[5].movPelotaY = 23.0f;
+	KeyFrame[5].movPelotaZ = 78.0f;
+
+	KeyFrame[6].movPelotaX = -293.0f;
+	KeyFrame[6].movPelotaY = 23.0f;
+	KeyFrame[6].movPelotaZ = 58.0f;
+
+	KeyFrame[7].movPelotaX = -278.0f;
+	KeyFrame[7].movPelotaY = 23.0f;
+	KeyFrame[7].movPelotaZ = 48.0f;
+
+	KeyFrame[8].movPelotaX = -188.0f;
+	KeyFrame[8].movPelotaY = 16.0f;
+	KeyFrame[8].movPelotaZ = 48.0f;
+
+	KeyFrame[9].movPelotaX = -108.0f;
+	KeyFrame[9].movPelotaY = 16.0f;
+	KeyFrame[9].movPelotaZ = 48.0f;
+
+	KeyFrame[10].movPelotaX = -203.0f;
+	KeyFrame[10].movPelotaY = 18.0f;
+	KeyFrame[10].movPelotaZ = 81.0f;
+
+	KeyFrame[11].movPelotaX = -8.0f;
+	KeyFrame[11].movPelotaY = 0.0f;
+	KeyFrame[11].movPelotaZ = 81.0f;
+
+	KeyFrame[12].movPelotaX = -6.0f;
+	KeyFrame[12].movPelotaY = 0.0f;
+	KeyFrame[12].movPelotaZ = 61.0f;
+
+	KeyFrame[13].movPelotaX = 0.0f;
+	KeyFrame[13].movPelotaY = 0.0f;
+	KeyFrame[13].movPelotaZ = 0.0f;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1023,7 +1105,7 @@ int main()
 		// ======================== bola animada por keyframes ========================
 
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(posXPelota, posYPelota, posZPelota));
+		model = glm::translate(model, glm::vec3(posXPelota + movPelotaX, posYPelota + movPelotaY, posZPelota + movPelotaZ));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pelota_M.RenderModel();
@@ -1203,8 +1285,11 @@ int main()
 	return 0;
 }
 
+
 void inputKeyframes(bool* keys)
 {
+
+	// reproduce la animacion
 	if (keys[GLFW_KEY_SPACE])
 	{
 		if (reproduciranimacion < 1)
@@ -1218,7 +1303,7 @@ void inputKeyframes(bool* keys)
 				playIndex = 0;
 				i_curr_steps = 0;
 				reproduciranimacion++;
-				printf("\n presiona 0 para habilitar reproducir de nuevo la animación'\n");
+				printf("\n presiona R para habilitar reproducir de nuevo la animación'\n");
 				habilitaranimacion = 0;
 
 			}
@@ -1230,6 +1315,7 @@ void inputKeyframes(bool* keys)
 		}
 	}
 
+	// reinicia la animacion
 	if (keys[GLFW_KEY_R])
 	{
 		if (habilitaranimacion < 1 && reproduciranimacion>0)
@@ -1239,4 +1325,132 @@ void inputKeyframes(bool* keys)
 
 		}
 	}
+
+	// guarda un frame
+	if (keys[GLFW_KEY_L])
+	{
+		if (guardoFrame < 1)
+		{
+			saveFrame();
+			printf("movPelotaX es: %f\n", movPelotaX);
+			printf("movPelotaY es: %f\n", movPelotaY);
+			printf("movPelotaZ es: %f\n", movPelotaZ);
+			printf("presiona P para habilitar guardar otro frame'\n");
+			guardoFrame++;
+			reinicioFrame = 0;
+		}
+	}
+
+	// habilita para guardar otro frame
+	if (keys[GLFW_KEY_P])
+	{
+		if (reinicioFrame < 1)
+		{
+			guardoFrame = 0;
+			printf("Ya puedes guardar otro frame presionando la tecla L'\n");
+		}
+	}
+
+	// tecla 1 desplaza en x
+	if (keys[GLFW_KEY_Z])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaX += 10.0f;
+			printf("\n movPelotaX es: %f\n", movPelotaX);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla X para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_K])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaX -= 10.0f;
+			printf("\n movPelotaX es: %f\n", movPelotaX);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla X para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_X])
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+			printf("\n Ya puedes modificar tu variable presionando la tecla Z o K\n");
+		}
+	}
+
+	// tecla 1 desplaza en y
+	if (keys[GLFW_KEY_C])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaY += 10.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla V para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_J])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaY -= 10.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla V para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_V])
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+			printf("\n Ya puedes modificar tu variable presionando la tecla C o J\n");
+		}
+	}
+
+	// tecla 1 desplaza en z
+	if (keys[GLFW_KEY_B])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaZ += 1.0f;
+			printf("\n movPelotaZ es: %f\n", movPelotaZ);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla N para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_H])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaZ -= 1.0f;
+			printf("\n movPelotaZ es: %f\n", movPelotaZ);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla N para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_N])
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+			printf("\n Ya puedes modificar tu variable presionando la tecla B o H\n");
+		}
+	}
+
 }
