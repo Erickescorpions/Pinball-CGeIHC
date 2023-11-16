@@ -966,53 +966,6 @@ int main()
 			std::cout << "x: " << posicionGojo.x << "y: " << posicionGojo.y << "z: " << posicionGojo.z << std::endl;
 		}*/
 
-		//===================================Cuerpo del conejito===============================================
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3 ( - 70.0f, 5.0f, 0.0f));
-		modelauxConejo = model;
-		modelauxConejo2 = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		torso.RenderModel();
-
-		//===================================Pata delantera derecha del conejito===============================================
-		model = modelauxConejo;
-		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
-		modelauxConejo = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		pataDD.RenderModel();
-
-		//===================================Pata delantera izquierda del conejito===============================================
-		model = modelauxConejo;
-		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
-		modelauxConejo = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		pataDI.RenderModel();
-
-		//===================================Pata trasera izquierda del conejito===============================================
-		model = modelauxConejo;
-		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
-		modelauxConejo = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		pataTI.RenderModel();
-
-		//===================================Pata trasera derecha del conejito===============================================
-		model = modelauxConejo;
-		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		pataTD.RenderModel();
-
-		//===================================Cabecita del conejito===============================================
-		model = modelauxConejo2;
-		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		cara.RenderModel();
-
 
 		// ========================= Piernas gojo =========================
 
@@ -1218,61 +1171,62 @@ int main()
 			}
 		}
 
+		// ================================================================================
+		// ====================== Modelo instanciado jerarquicamente ======================
+		// ================================================================================
+		
+		
+		// ====================== Cuerpo del conejito ======================
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-70.0f, 5.0f, 0.0f));
+		modelauxConejo = model;
+		modelauxConejo2 = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torso.RenderModel();
+
+		// ====================== Pata delantera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDD.RenderModel();
+
+		// ====================== Pata delantera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDI.RenderModel();
+
+		// ====================== Pata trasera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTI.RenderModel();
+
+		// ====================== Pata trasera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTD.RenderModel();
+
+		// ====================== Cabecita del conejito ======================
+		model = modelauxConejo2;
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cara.RenderModel();
+
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// =================== contador del 00 al 99 ciclico ===================
-
-		if (difftime(time(NULL), start) >= 1.0f) {
-			if (unidades == 9) {
-				unidades = 0;
-				
-				if (decenas == 9) {
-					decenas = 0;
-				} else {
-					decenas += 1;
-				}
-			} else {
-				unidades += 1;
-			}
-
-			start = time(NULL);
-		}
-
-		// =================== Unidades ===================
-		unidadesCoordU = coordsNumeros[unidades][0];
-		unidadesCoordV = coordsNumeros[unidades][1];
-
-		toffset = glm::vec2(unidadesCoordU, unidadesCoordV);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 10.0f, -6.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		NumerosTexture.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[6]->RenderMesh();
-
-		// =================== Decenas ===================
-		decenasCoordU = coordsNumeros[decenas][0];
-		decenasCoordV = coordsNumeros[decenas][1];
-
-		toffset = glm::vec2(decenasCoordU, decenasCoordV);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-13.0f, 10.0f, -6.0f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		NumerosTexture.UseTexture();
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		meshList[6]->RenderMesh();
 
 
 		glDisable(GL_BLEND);
