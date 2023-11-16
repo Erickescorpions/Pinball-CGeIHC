@@ -348,27 +348,59 @@ float calcularPosicionY(float tiempo) {
 	return alturaInicial + (velocidadInicial * tiempo) - (0.5f * gravedad * tiempo * tiempo);
 }
 
-
-//variables para keyframes
-float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
+// ==========================================================================
+// ============================ Inicio KeyFrames ============================
+// ==========================================================================
 
 //función para teclado de keyframes 
 void inputKeyframes(bool* keys);
 
-// ==========================================================================
-// ============================ Inicio KeyFrames ===============================
-// ==========================================================================
+//variables para keyframes
+float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
 
 bool animacion = false;
 
 //NEW// Keyframes
+//float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; 0
+//float posXPelota = 98.0f, posYPelota = 210.0f, posZPelota = -156.0f; 1
+//float posXPelota = 85.0f, posYPelota = 210.0f, posZPelota = -146.0f; 2
+//float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -136.0f; 3
+//float posXPelota = 78.0f, posYPelota = 210.0f, posZPelota = -88.0f; 4
+//float posXPelota = 101.0f, posYPelota = 207.0f, posZPelota = -78.0f;
+//float posXPelota = 105.0f, posYPelota = 207.0f, posZPelota = -98.0f;
+//float posXPelota = 120.0f, posYPelota = 207.0f, posZPelota = -108.0f;
+//float posXPelota = 210.0f, posYPelota = 200.0f, posZPelota = -108.0f;
+//float posXPelota = 290.0f, posYPelota = 193.0f, posZPelota = -108.0f;
+//float posXPelota = 195.0f, posYPelota = 202.0f, posZPelota = -75.0f;
+//float posXPelota = 390.0f, posYPelota = 184.0f, posZPelota = -75.0f;
+//float posXPelota = 393.0f, posYPelota = 184.0f, posZPelota = -95.0f;
+float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f;
 
-float posXPelota = 0.0f, posYPelota = 0.0f, posZPelota = 0.0f;
+//KeyFrame[0].movPelotaX = 0.0f;
+//KeyFrame[0].movPelotaY = 0.0f;
+//KeyFrame[0].movPelotaZ = 0.0f;
+//
+//KeyFrame[1].movPelotaX = -300.0f;
+//KeyFrame[1].movPelotaY = 26.0f;
+//KeyFrame[1].movPelotaZ = 0.0f;
+//
+//KeyFrame[2].movPelotaX = -13.0f;
+//KeyFrame[2].movPelotaY = 0.0f;
+//KeyFrame[2].movPelotaZ = 10.0f;
+//
+//KeyFrame[3].movPelotaX = -7.0f;
+//KeyFrame[3].movPelotaY = 0.0f;
+//KeyFrame[3].movPelotaZ = 10.0f;
+//
+//KeyFrame[4].movPelotaX = 0.0f;
+//KeyFrame[4].movPelotaY = 0.0f;
+//KeyFrame[4].movPelotaZ = 48.0f;
+
 float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f;
 
 #define MAX_FRAMES 100
 int i_max_steps = 90;
-int i_curr_steps = 4;
+int i_curr_steps = 5;
 
 typedef struct _frame
 {
@@ -377,7 +409,7 @@ typedef struct _frame
 } FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 4;			//introducir datos
+int FrameIndex = 5;			//introducir datos
 bool play = false;
 int playIndex = 0;
 
@@ -482,6 +514,9 @@ int main()
 	Model bola_M = Model();
 	bola_M.LoadModel("Models/Bola/bola.obj");
 
+	Model pelota_M = Model();
+	pelota_M.LoadModel("Models/Pinball/pelota.obj");
+
 	Model pinball_M = Model();
 	pinball_M.LoadModel("Models/Pinball/pinball.obj");
 
@@ -506,6 +541,9 @@ int main()
 	Model dedoSukuna_M = Model();
 	dedoSukuna_M.LoadModel("Models/DedoSukuna/DedoSukuna.obj");
 
+	Model ojoGojo_M = Model();
+	ojoGojo_M.LoadModel("Models/Pinball/ojo.obj");
+
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -526,7 +564,7 @@ int main()
 	
 	// luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.2f, 0.2f,
+		0.5f, 0.5f,
 		0.0f, 0.0f, -1.0f);
 	
 	// contador de luces puntuales
@@ -622,6 +660,7 @@ int main()
 	bool cambioPersonaje = false;
 	glm::vec3 posicionGojo = glm::vec3(90.0f, 240.0f, 427.0f);
 	//float rotacionGojo = 180.0f;
+	bool imprimirPosicion = false;
 
 
 	// variables para el movimiento de los flippers
@@ -630,6 +669,28 @@ int main()
 	float flipper3 = 0.0f;
 
 	float rotaFlipperOffset = 2.0f;
+
+	// keyframes pelota
+
+	KeyFrame[0].movPelotaX = 0.0f;
+	KeyFrame[0].movPelotaY = 0.0f;
+	KeyFrame[0].movPelotaZ = 0.0f;
+
+	KeyFrame[1].movPelotaX = -300.0f;
+	KeyFrame[1].movPelotaY = 26.0f;
+	KeyFrame[1].movPelotaZ = 0.0f;
+
+	KeyFrame[2].movPelotaX = -13.0f;
+	KeyFrame[2].movPelotaY = 0.0f;
+	KeyFrame[2].movPelotaZ = 10.0f;
+
+	KeyFrame[3].movPelotaX = -7.0f;
+	KeyFrame[3].movPelotaY = 0.0f;
+	KeyFrame[3].movPelotaZ = 10.0f;
+
+	KeyFrame[4].movPelotaX = 0.0f;
+	KeyFrame[4].movPelotaY = 0.0f;
+	KeyFrame[4].movPelotaZ = 48.0f;
 	
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -643,6 +704,7 @@ int main()
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		inputKeyframes(mainWindow.getsKeys());
 
 		// camara isometrica
 		if (!mainWindow.getCamara()) {
@@ -714,31 +776,23 @@ int main()
 		
 		// ======================== bola 1 ========================
 		 
-		movBola -= movOffset * deltaTime;
-		tiempoTranscurrido += movOffset * deltaTime;
-		
-		// Actualiza la posición de la pelota en función del tiempo transcurrido
-		float nuevaAltura = calcularPosicionY(tiempoTranscurrido);
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f + movBola, -1.5f + nuevaAltura, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		bola_M.RenderModel();
-
-		// ======================== bola animada por keyframes ========================
-
-		movBola -= movOffset * deltaTime;
-		tiempoTranscurrido += movOffset * deltaTime;
-
-		// Actualiza la posición de la pelota en función del tiempo transcurrido
+		//movBola -= movOffset * deltaTime;
+		//tiempoTranscurrido += movOffset * deltaTime;
+		//
+		//// Actualiza la posición de la pelota en función del tiempo transcurrido
 		//float nuevaAltura = calcularPosicionY(tiempoTranscurrido);
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f + movBola, -1.5f + nuevaAltura, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		bola_M.RenderModel();
+		//model = glm::mat4(1.0);
+		//model = glm::translate(model, glm::vec3(0.0f + movBola, -1.5f + nuevaAltura, 0.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		//bola_M.RenderModel();
+
+
+		// Reinicia el salto cuando la pelota toca el suelo
+		/*if (nuevaAltura <= 0.0f) {
+			tiempoTranscurrido = 0.0f;
+		}*/
 
 		
 		// ========================= Para posicionar la camara en el avatar =========================
@@ -752,12 +806,11 @@ int main()
 		}
 		else {
 			cambioPersonaje = false;
-
-			if (mainWindow.imprimirPosicion()) {
-				std::cout << posicionGojo.x << " - " << posicionGojo.y << " - " << posicionGojo.z << " - " << std::endl;
-			}
 		}
 
+		/*if (mainWindow.imprimirPosicion()) {
+			std::cout << "x: " << posicionGojo.x << "y: " << posicionGojo.y << "z: " << posicionGojo.z << std::endl;
+		}*/
 
 		// ========================= Piernas gojo =========================
 
@@ -799,8 +852,7 @@ int main()
 
 		// ======================== palanca ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(400.0f + muevePalanca, 179.0f, -155.0f));
-		//model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(407.0f + muevePalanca, 178.0f, -156.0f));
 		color = glm::vec3(1.0f, 0.0f, 0.0f);
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -811,7 +863,7 @@ int main()
 
 		// ======================== resorte ========================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(460.0f, 178.0f, -155.0f));
+		model = glm::translate(model, glm::vec3(460.0f, 178.0f, -156.0f));
 		model = glm::scale(model, glm::vec3((1.0f * contraeResorte) / 100, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -848,15 +900,57 @@ int main()
 			}
 		}
 
+		// ======================== bola animada por keyframes ========================
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(posXPelota, posYPelota, posZPelota));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pelota_M.RenderModel();
+
+		animate();
+
 		// ======================== Santuario Malevolo ========================
 		model = modelaux;
-		glm::vec3 posicionSantuario = glm::vec3(220.0f, 245.0f, -75.0f);
 		model = glm::translate(model, glm::vec3(175.0f, 215.0f, -75.0f));
 		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
 		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		santuario_M.RenderModel();
+
+		// ======================== Ojos Gojo ========================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(131.0f, 204.0f, -95.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		ojoGojo_M.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(131.0f, 204.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		ojoGojo_M.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(111.0f, 204.0f, -72.5f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		ojoGojo_M.RenderModel();
+
+		/*model = modelaux;
+		model = glm::translate(model, glm::vec3(290.0f, 193.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		ojoGojo_M.RenderModel();*/
 
 
 		// ======================== Flippers ========================
@@ -926,11 +1020,6 @@ int main()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// Reinicia el salto cuando la pelota toca el suelo
-		if (nuevaAltura <= 0.0f) {
-			tiempoTranscurrido = 0.0f;
-		}
-
 		// =================== contador del 00 al 99 ciclico ===================
 
 		if (difftime(time(NULL), start) >= 1.0f) {
@@ -994,3 +1083,40 @@ int main()
 	return 0;
 }
 
+void inputKeyframes(bool* keys)
+{
+	if (keys[GLFW_KEY_SPACE])
+	{
+		if (reproduciranimacion < 1)
+		{
+			if (play == false && (FrameIndex > 1))
+			{
+				resetElements();
+				//First Interpolation				
+				interpolation();
+				play = true;
+				playIndex = 0;
+				i_curr_steps = 0;
+				reproduciranimacion++;
+				printf("\n presiona 0 para habilitar reproducir de nuevo la animación'\n");
+				habilitaranimacion = 0;
+
+			}
+			else
+			{
+				play = false;
+
+			}
+		}
+	}
+
+	if (keys[GLFW_KEY_R])
+	{
+		if (habilitaranimacion < 1 && reproduciranimacion>0)
+		{
+			printf("Ya puedes reproducir de nuevo la animación con la tecla de barra espaciadora'\n");
+			reproduciranimacion = 0;
+
+		}
+	}
+}
