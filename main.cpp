@@ -1,13 +1,15 @@
 /*
-Semestre 2024-1
-Animación:
-Sesión 1:
-Simple o básica:Por banderas y condicionales (más de 1 transformación geométrica se ve modificada
-Sesión 2
-Compleja: Por medio de funciones y algoritmos.
-Adicional.- Textura Animada
+
+Proyecto final de la materia computacion grafica e interaccin humano computadora
+
+Pinball tematica Jujutsu Kaisen
+Autores:
+- Fuerte Martinez Nestor Enrique
+- Vazquez Sanchez Erick Alejandro
+
 */
-//para cargar imagen
+
+
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <stdio.h>
@@ -828,7 +830,7 @@ int main()
 
 
 	printf("Acciones: \n");
-	printf("Iniciar animacion de la pelota:     Presionar click derecho y soltar");
+	printf("Iniciar animacion de la pelota:     Presionar click derecho y soltar\n");
 	printf("Cambiar de camara:                  Presionar tecla 'C'\n");
 	printf("Mover paleta principal derecha:     Presionar tecla '1'\n");
 	printf("Mover paleta principal izquierda:   Presionar tecla '2'\n");
