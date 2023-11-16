@@ -348,6 +348,106 @@ float calcularPosicionY(float tiempo) {
 	return alturaInicial + (velocidadInicial * tiempo) - (0.5f * gravedad * tiempo * tiempo);
 }
 
+
+//variables para keyframes
+float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
+
+//función para teclado de keyframes 
+void inputKeyframes(bool* keys);
+
+// ==========================================================================
+// ============================ Inicio KeyFrames ===============================
+// ==========================================================================
+
+bool animacion = false;
+
+//NEW// Keyframes
+
+float posXPelota = 0.0f, posYPelota = 0.0f, posZPelota = 0.0f;
+float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f;
+
+#define MAX_FRAMES 100
+int i_max_steps = 90;
+int i_curr_steps = 4;
+
+typedef struct _frame
+{
+	float movPelotaX, movPelotaY, movPelotaZ;
+	float movPelotaXInc, movPelotaYInc, movPelotaZInc;
+} FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 4;			//introducir datos
+bool play = false;
+int playIndex = 0;
+
+void saveFrame(void) //tecla L
+{
+	printf("frameindex %d\n", FrameIndex);
+
+	KeyFrame[FrameIndex].movPelotaX = movPelotaX;
+	KeyFrame[FrameIndex].movPelotaY = movPelotaY;
+	KeyFrame[FrameIndex].movPelotaZ = movPelotaZ;
+	
+	//no volatil, agregar una forma de escribir a un archivo para guardar los frames
+	FrameIndex++;
+}
+
+void resetElements(void) //Tecla 0
+{
+	movPelotaX = KeyFrame[0].movPelotaX;
+	movPelotaY = KeyFrame[0].movPelotaY;
+	movPelotaZ = KeyFrame[0].movPelotaZ;
+}
+
+void interpolation(void)
+{
+	KeyFrame[playIndex].movPelotaXInc = (KeyFrame[playIndex + 1].movPelotaX - KeyFrame[playIndex].movPelotaX) / i_max_steps;
+	KeyFrame[playIndex].movPelotaYInc = (KeyFrame[playIndex + 1].movPelotaY - KeyFrame[playIndex].movPelotaY) / i_max_steps;
+	KeyFrame[playIndex].movPelotaZInc = (KeyFrame[playIndex + 1].movPelotaZ - KeyFrame[playIndex].movPelotaZ) / i_max_steps;
+}
+
+void animate(void)
+{
+	//Movimiento del objeto con barra espaciadora
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //fin de animación entre frames?
+		{
+			playIndex++;
+			printf("playindex : %d\n", playIndex);
+			if (playIndex > FrameIndex - 2)	//Fin de toda la animación con último frame?
+			{
+				printf("Frame index= %d\n", FrameIndex);
+				printf("termino la animacion\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Interpolación del próximo cuadro
+			{
+
+				i_curr_steps = 0; //Resetea contador
+				//Interpolar
+				interpolation();
+			}
+		}
+		else
+		{
+			//Dibujar Animación
+			movPelotaX += KeyFrame[playIndex].movPelotaXInc;
+			movPelotaY += KeyFrame[playIndex].movPelotaYInc;
+			movPelotaZ += KeyFrame[playIndex].movPelotaZInc;
+			i_curr_steps++;
+		}
+
+	}
+}
+
+// ==========================================================================
+// ============================ Fin KeyFrames ===============================
+// ==========================================================================
+
+
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -381,7 +481,6 @@ int main()
 
 	Model bola_M = Model();
 	bola_M.LoadModel("Models/Bola/bola.obj");
-
 
 	Model pinball_M = Model();
 	pinball_M.LoadModel("Models/Pinball/pinball.obj");
@@ -626,19 +725,37 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		bola_M.RenderModel();
+
+		// ======================== bola animada por keyframes ========================
+
+		movBola -= movOffset * deltaTime;
+		tiempoTranscurrido += movOffset * deltaTime;
+
+		// Actualiza la posición de la pelota en función del tiempo transcurrido
+		//float nuevaAltura = calcularPosicionY(tiempoTranscurrido);
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f + movBola, -1.5f + nuevaAltura, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		bola_M.RenderModel();
+
 		
 		// ========================= Para posicionar la camara en el avatar =========================
 		if (mainWindow.getCamara()) {
 			if (!cambioPersonaje) {
-				camera.setPosition(posicionGojo.x, posicionGojo.y + 35.0f, posicionGojo.z + 40.0f);
+				camera.setPosition(posicionGojo.x, posicionGojo.y + 15.0f, posicionGojo.z + 40.0f);
 				cambioPersonaje = true;
 			}
 
-			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 35.0f, camera.getCameraPosition().z - 40.0f);
+			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 15.0f, camera.getCameraPosition().z - 40.0f);
 		}
 		else {
 			cambioPersonaje = false;
-			std::cout << posicionGojo.x << " - " << posicionGojo.y << " - " << posicionGojo.z << " - " << std::endl;
+
+			if (mainWindow.imprimirPosicion()) {
+				std::cout << posicionGojo.x << " - " << posicionGojo.y << " - " << posicionGojo.z << " - " << std::endl;
+			}
 		}
 
 
@@ -673,8 +790,8 @@ int main()
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
 		
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -876,3 +993,4 @@ int main()
 
 	return 0;
 }
+

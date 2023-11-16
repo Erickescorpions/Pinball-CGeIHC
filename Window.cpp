@@ -186,6 +186,18 @@ void Window::ManejaClickRaton(GLFWwindow* window, int button, int action, int mo
 			theWindow->clickDerecho = false;
 		}
 	}
+
+	if (button == GLFW_MOUSE_BUTTON_LEFT)
+	{
+		if (action == GLFW_PRESS)
+		{
+			theWindow->imprimePosicion = true;
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			theWindow->imprimePosicion = false;
+		}
+	}
 }
 
 
