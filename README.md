@@ -1,6 +1,6 @@
 # Proyecto Final de la materia CGeIHC
 
-Autores; 
+Autores:
 * Fuerte Martinez Nestor Enrique
 * Vazquez Sanchez Erick Alejandro
 
