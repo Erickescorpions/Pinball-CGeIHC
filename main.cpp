@@ -594,23 +594,8 @@ int main()
 	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
-	AgaveTexture = Texture("Textures/Agave.tga");
-	AgaveTexture.LoadTextureA();
-	FlechaTexture = Texture("Textures/flechas.tga");
-	FlechaTexture.LoadTextureA();
-	NumerosTexture = Texture("Textures/numerosbase.tga");
-	NumerosTexture.LoadTextureA();
-	Numero1Texture = Texture("Textures/numero1.tga");
-	Numero1Texture.LoadTextureA();
-	Numero2Texture = Texture("Textures/numero2.tga");
-	Numero2Texture.LoadTextureA();
-	sillonRojo = Texture("Textures/sillonRojo.tga");
-	sillonRojo.LoadTexture();
 
-
-
-	Model bola_M = Model();
-	bola_M.LoadModel("Models/Bola/bola.obj");
+	// ======================== Modelos ========================
 
 	Model pelota_M = Model();
 	pelota_M.LoadModel("Models/Pinball/pelota.obj");
@@ -659,6 +644,9 @@ int main()
 
 	torso = Model();
 	torso.LoadModel("Models/Conejo/torso.obj");
+
+	Model cristal_M = Model();
+	cristal_M.LoadModel("Models/Pinball/cristal.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -1185,7 +1173,7 @@ int main()
 		modelauxConejo = model;
 		modelauxConejo2 = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		torso.RenderModel();
 
 		// ====================== Pata delantera derecha del conejito ======================
@@ -1193,7 +1181,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDD.RenderModel();
 
 		// ====================== Pata delantera izquierda del conejito ======================
@@ -1201,7 +1189,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDI.RenderModel();
 
 		// ====================== Pata trasera izquierda del conejito ======================
@@ -1209,21 +1197,21 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTI.RenderModel();
 
 		// ====================== Pata trasera derecha del conejito ======================
 		model = modelauxConejo;
 		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTD.RenderModel();
 
 		// ====================== Cabecita del conejito ======================
 		model = modelauxConejo2;
 		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		cara.RenderModel();
 
 
@@ -1236,7 +1224,7 @@ int main()
 		modelauxConejo = model;
 		modelauxConejo2 = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		torso.RenderModel();
 
 		// ====================== Pata delantera derecha del conejito ======================
@@ -1244,7 +1232,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDD.RenderModel();
 
 		// ====================== Pata delantera izquierda del conejito ======================
@@ -1252,7 +1240,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDI.RenderModel();
 
 		// ====================== Pata trasera izquierda del conejito ======================
@@ -1260,21 +1248,21 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTI.RenderModel();
 
 		// ====================== Pata trasera derecha del conejito ======================
 		model = modelauxConejo;
 		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTD.RenderModel();
 
 		// ====================== Cabecita del conejito ======================
 		model = modelauxConejo2;
 		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		cara.RenderModel();
 
 		// ====================== Conejo 3 ======================
@@ -1286,7 +1274,7 @@ int main()
 		modelauxConejo = model;
 		modelauxConejo2 = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		torso.RenderModel();
 
 		// ====================== Pata delantera derecha del conejito ======================
@@ -1294,7 +1282,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDD.RenderModel();
 
 		// ====================== Pata delantera izquierda del conejito ======================
@@ -1302,7 +1290,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDI.RenderModel();
 
 		// ====================== Pata trasera izquierda del conejito ======================
@@ -1310,21 +1298,21 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTI.RenderModel();
 
 		// ====================== Pata trasera derecha del conejito ======================
 		model = modelauxConejo;
 		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTD.RenderModel();
 
 		// ====================== Cabecita del conejito ======================
 		model = modelauxConejo2;
 		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		cara.RenderModel();
 
 		// ====================== Conejo 4 ======================
@@ -1336,7 +1324,7 @@ int main()
 		modelauxConejo = model;
 		modelauxConejo2 = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		torso.RenderModel();
 
 		// ====================== Pata delantera derecha del conejito ======================
@@ -1344,7 +1332,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDD.RenderModel();
 
 		// ====================== Pata delantera izquierda del conejito ======================
@@ -1352,7 +1340,7 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataDI.RenderModel();
 
 		// ====================== Pata trasera izquierda del conejito ======================
@@ -1360,28 +1348,33 @@ int main()
 		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
 		modelauxConejo = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTI.RenderModel();
 
 		// ====================== Pata trasera derecha del conejito ======================
 		model = modelauxConejo;
 		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pataTD.RenderModel();
 
 		// ====================== Cabecita del conejito ======================
 		model = modelauxConejo2;
 		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		cara.RenderModel();
 
 		//blending: transparencia o traslucidez
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
+		// ====================== Cristal transparente ======================
+		/*model = modelaux;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		cristal_M.RenderModel();*/
 
 		glDisable(GL_BLEND);
 
