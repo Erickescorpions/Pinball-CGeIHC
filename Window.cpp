@@ -114,7 +114,7 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow-> muevex -= 1.0;
 	}
-	if ( key == GLFW_KEY_F && action == GLFW_PRESS )
+	if ( key == GLFW_KEY_C && action == GLFW_PRESS )
 	{
 		theWindow->camara = !theWindow->camara;
 	}

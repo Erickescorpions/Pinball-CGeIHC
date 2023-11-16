@@ -541,11 +541,11 @@ void animate(void)
 		if (i_curr_steps >= i_max_steps) //fin de animación entre frames?
 		{
 			playIndex++;
-			printf("playindex : %d\n", playIndex);
+			//printf("playindex : %d\n", playIndex);
 			if (playIndex > FrameIndex - 2)	//Fin de toda la animación con último frame?
 			{
-				printf("Frame index= %d\n", FrameIndex);
-				printf("termino la animacion\n");
+				//printf("Frame index= %d\n", FrameIndex);
+				//printf("termino la animacion\n");
 				playIndex = 0;
 				play = false;
 			}
@@ -573,6 +573,8 @@ void animate(void)
 // ============================ Fin KeyFrames ===============================
 // ==========================================================================
 
+void iniciaAnimacionKeyframe();
+void reseteaAnimacionKeyframe();
 
 int main()
 {
@@ -724,38 +726,22 @@ int main()
 	);
 	pointLightCount++;
 
+	// ================== Luz Morada Avatar ==================
+	spotLightsMap["avatar"] = SpotLight(
+		1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f,
+		90.0f, 240.0f + 60.0f, 427.0f, // posicion inicial del avatar
+		0.0f, -1.0f, 0.0f,
+		0.01f, 0.001f, 0.0004f, 
+		15.0f
+	);
+	spotLightCount++;
+
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset=0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
-
-	// ========= variables para cronometro del 00 al 99 =========
-	time_t start = time(NULL);
-
-	std::map<int, std::array<float, 2>> coordsNumeros;
-
-	coordsNumeros[0] = { 0.25f, -0.66f };
-	coordsNumeros[1] = { 0.0f,	0.00f };
-	coordsNumeros[2] = { 0.25f, 0.0f };
-	coordsNumeros[3] = { 0.50f, 0.0f };
-	coordsNumeros[4] = { 0.75f, 0.0f };
-	coordsNumeros[5] = { 0.0f,	-0.33f };
-	coordsNumeros[6] = { 0.25f, -0.33f };
-	coordsNumeros[7] = { 0.50f, -0.33f };
-	coordsNumeros[8] = { 0.75f, -0.33f };
-	coordsNumeros[9] = { 0.0f,	-0.66f };
-
-	int decenas = 0, unidades = 0;
-
-	float unidadesCoordU = 0.0f, unidadesCoordV = 0.0f;
-	float decenasCoordU = 0.0f, decenasCoordV = 0.0f;
-
-	// ========= variables para animación de la bola =========
-	float movOffset = 0.05f;
-	float movBola = 0.0f;
-	float tiempoTranscurrido = 0.0f;
-
 
 	// variables para la animacion del resorte/palanca
 	bool animacionResorteContrae = false;
@@ -841,8 +827,26 @@ int main()
 	KeyFrame[13].movPelotaX = 0.0f;
 	KeyFrame[13].movPelotaY = 0.0f;
 	KeyFrame[13].movPelotaZ = 0.0f;
+
+
+	// variables animacion conejo
+	// ========= variables para animación de la bola =========
+	float movOffset = 0.05f;
+	float movBola = 0.0f;
+
+	float movConejoOffset = 0.05f;
+	float movConejo = 0.0f;
+	float tiempoTranscurrido = 0.0f;
+
+
+	printf("Acciones: \n");
+	printf("Iniciar animacion de la pelota:     Presionar click derecho y soltar");
+	printf("Cambiar de camara:                  Presionar tecla 'C'\n");
+	printf("Mover paleta principal derecha:     Presionar tecla '1'\n");
+	printf("Mover paleta principal izquierda:   Presionar tecla '2'\n");
+	printf("Mover paleta secundaria:            Presionar tecla '3'\n");
 	
-	////Loop mientras no se cierra la ventana
+	// =================================== Loop mientras no se cierra la ventana  ===================================
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
@@ -917,7 +921,7 @@ int main()
 		meshList[2]->RenderMesh();
 
 
-		//==================================Instanciando primitiva===================================
+		// ======================= Instanciando primitiva =======================
 		model = glm::mat4(1.0);
 		//color = glm::vec3(0.0f, 0.0f, 1.0f);
 		model = glm::translate(model, glm::vec3(-50.0f, 6.0f, 0.0f));
@@ -926,27 +930,6 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		sillonRojo.UseTexture();
 		meshList[8]->RenderMesh();
-
-		
-		// ======================== bola 1 ========================
-		 
-		//movBola -= movOffset * deltaTime;
-		//tiempoTranscurrido += movOffset * deltaTime;
-		//
-		//// Actualiza la posición de la pelota en función del tiempo transcurrido
-		//float nuevaAltura = calcularPosicionY(tiempoTranscurrido);
-
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, glm::vec3(0.0f + movBola, -1.5f + nuevaAltura, 0.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//bola_M.RenderModel();
-
-
-		// Reinicia el salto cuando la pelota toca el suelo
-		/*if (nuevaAltura <= 0.0f) {
-			tiempoTranscurrido = 0.0f;
-		}*/
 
 		
 		// ========================= Para posicionar la camara en el avatar =========================
@@ -961,6 +944,8 @@ int main()
 		else {
 			cambioPersonaje = false;
 		}
+
+		spotLightsMap["avatar"].SetPos(glm::vec3(posicionGojo.x, posicionGojo.y + 60.0f, posicionGojo.z));
 
 		/*if (mainWindow.imprimirPosicion()) {
 			std::cout << "x: " << posicionGojo.x << "y: " << posicionGojo.y << "z: " << posicionGojo.z << std::endl;
@@ -998,8 +983,8 @@ int main()
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
 		
-		//model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1028,6 +1013,7 @@ int main()
 		if (mainWindow.getClickDerecho()) {
 			animacionResorteContrae = true;
 			animacionResorteExpande = false;
+			reseteaAnimacionKeyframe();
 		}
 		else {
 			animacionResorteContrae = false;
@@ -1037,6 +1023,7 @@ int main()
 		if (animacionResorteContrae) {
 			
 			if (muevePalanca <= 35.0f) {
+
 				muevePalanca += muevePalancaOffset * deltaTime;
 				
 				if (contraeResorte >= 10.0f) {
@@ -1052,6 +1039,9 @@ int main()
 				if (contraeResorte <= 100.0f) {
 					contraeResorte += expandeResorteOffset * deltaTime;
 				}
+			}
+			else {
+				iniciaAnimacionKeyframe();
 			}
 		}
 
@@ -1175,10 +1165,174 @@ int main()
 		// ====================== Modelo instanciado jerarquicamente ======================
 		// ================================================================================
 		
+		//movBola -= movOffset * deltaTime;
+		tiempoTranscurrido += movOffset * deltaTime;
+		//
+		// Actualiza la posición de la pelota en función del tiempo transcurrido
+		float nuevaAltura = calcularPosicionY(tiempoTranscurrido);
+
+		// Reinicia el salto cuando la pelota toca el suelo
+		if (nuevaAltura <= 0.0f) {
+			tiempoTranscurrido = 0.0f;
+		}
 		
+		// ====================== Conejo 1 ======================
 		// ====================== Cuerpo del conejito ======================
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-70.0f, 5.0f, 0.0f));
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(190.0f, 195.0f + nuevaAltura, -25.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelauxConejo = model;
+		modelauxConejo2 = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torso.RenderModel();
+
+		// ====================== Pata delantera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDD.RenderModel();
+
+		// ====================== Pata delantera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDI.RenderModel();
+
+		// ====================== Pata trasera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTI.RenderModel();
+
+		// ====================== Pata trasera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTD.RenderModel();
+
+		// ====================== Cabecita del conejito ======================
+		model = modelauxConejo2;
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cara.RenderModel();
+
+
+		// ====================== Conejo 2 ======================
+		// ====================== Cuerpo del conejito ======================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(190.0f, 195.0f + nuevaAltura, -15.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelauxConejo = model;
+		modelauxConejo2 = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torso.RenderModel();
+
+		// ====================== Pata delantera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDD.RenderModel();
+
+		// ====================== Pata delantera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDI.RenderModel();
+
+		// ====================== Pata trasera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTI.RenderModel();
+
+		// ====================== Pata trasera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTD.RenderModel();
+
+		// ====================== Cabecita del conejito ======================
+		model = modelauxConejo2;
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cara.RenderModel();
+
+		// ====================== Conejo 3 ======================
+		// ====================== Cuerpo del conejito ======================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(150.0f, 199.0f + nuevaAltura, -15.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelauxConejo = model;
+		modelauxConejo2 = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torso.RenderModel();
+
+		// ====================== Pata delantera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDD.RenderModel();
+
+		// ====================== Pata delantera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDI.RenderModel();
+
+		// ====================== Pata trasera izquierda del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTI.RenderModel();
+
+		// ====================== Pata trasera derecha del conejito ======================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTD.RenderModel();
+
+		// ====================== Cabecita del conejito ======================
+		model = modelauxConejo2;
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cara.RenderModel();
+
+		// ====================== Conejo 4 ======================
+		// ====================== Cuerpo del conejito ======================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(150.0f, 199.0f + nuevaAltura, -25.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelauxConejo = model;
 		modelauxConejo2 = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1234,54 +1388,16 @@ int main()
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
-	}
+	} // ======================================== Fin del loop  ========================================
 
 	return 0;
-}
+} 
 
 
 void inputKeyframes(bool* keys)
 {
-
-	// reproduce la animacion
-	if (keys[GLFW_KEY_SPACE])
-	{
-		if (reproduciranimacion < 1)
-		{
-			if (play == false && (FrameIndex > 1))
-			{
-				resetElements();
-				//First Interpolation				
-				interpolation();
-				play = true;
-				playIndex = 0;
-				i_curr_steps = 0;
-				reproduciranimacion++;
-				printf("\n presiona R para habilitar reproducir de nuevo la animación'\n");
-				habilitaranimacion = 0;
-
-			}
-			else
-			{
-				play = false;
-
-			}
-		}
-	}
-
-	// reinicia la animacion
-	if (keys[GLFW_KEY_R])
-	{
-		if (habilitaranimacion < 1 && reproduciranimacion>0)
-		{
-			printf("Ya puedes reproducir de nuevo la animación con la tecla de barra espaciadora'\n");
-			reproduciranimacion = 0;
-
-		}
-	}
-
 	// guarda un frame
-	if (keys[GLFW_KEY_L])
+	if (keys[GLFW_KEY_O])
 	{
 		if (guardoFrame < 1)
 		{
@@ -1301,20 +1417,54 @@ void inputKeyframes(bool* keys)
 		if (reinicioFrame < 1)
 		{
 			guardoFrame = 0;
-			printf("Ya puedes guardar otro frame presionando la tecla L'\n");
+			printf("Ya puedes guardar otro frame presionando la tecla O'\n");
 		}
 	}
 
 	// tecla 1 desplaza en x
-	if (keys[GLFW_KEY_Z])
+	if (keys[GLFW_KEY_F])
 	{
 		if (ciclo < 1)
 		{
-			movPelotaX += 10.0f;
+			movPelotaX += 1.0f;
 			printf("\n movPelotaX es: %f\n", movPelotaX);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla X para poder habilitar la variable\n");
+			printf("\n Presiona la tecla H para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_G])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaX -= 1.0f;
+			printf("\n movPelotaX es: %f\n", movPelotaX);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla H para poder habilitar la variable\n");
+		}
+
+	}
+	if (keys[GLFW_KEY_H])
+	{
+		if (ciclo2 < 1)
+		{
+			ciclo = 0;
+			printf("\n Ya puedes modificar tu variable presionando la tecla F(+) o G(-)\n");
+		}
+	}
+
+	// tecla 1 desplaza en y
+	if (keys[GLFW_KEY_J])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaY += 1.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla L para poder habilitar la variable\n");
 		}
 
 	}
@@ -1322,54 +1472,21 @@ void inputKeyframes(bool* keys)
 	{
 		if (ciclo < 1)
 		{
-			movPelotaX -= 10.0f;
-			printf("\n movPelotaX es: %f\n", movPelotaX);
+			movPelotaY -= 1.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla X para poder habilitar la variable\n");
+			printf("\n Presiona la tecla L para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_X])
+
+	if (keys[GLFW_KEY_L])
 	{
 		if (ciclo2 < 1)
 		{
 			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla Z o K\n");
-		}
-	}
-
-	// tecla 1 desplaza en y
-	if (keys[GLFW_KEY_C])
-	{
-		if (ciclo < 1)
-		{
-			movPelotaY += 10.0f;
-			printf("\n movPelotaY es: %f\n", movPelotaY);
-			ciclo++;
-			ciclo2 = 0;
-			printf("\n Presiona la tecla V para poder habilitar la variable\n");
-		}
-
-	}
-	if (keys[GLFW_KEY_J])
-	{
-		if (ciclo < 1)
-		{
-			movPelotaY -= 10.0f;
-			printf("\n movPelotaY es: %f\n", movPelotaY);
-			ciclo++;
-			ciclo2 = 0;
-			printf("\n Presiona la tecla V para poder habilitar la variable\n");
-		}
-
-	}
-	if (keys[GLFW_KEY_V])
-	{
-		if (ciclo2 < 1)
-		{
-			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla C o J\n");
+			printf("\n Ya puedes modificar tu variable presionando la tecla J o K\n");
 		}
 	}
 
@@ -1382,11 +1499,11 @@ void inputKeyframes(bool* keys)
 			printf("\n movPelotaZ es: %f\n", movPelotaZ);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla N para poder habilitar la variable\n");
+			printf("\n Presiona la tecla M para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_H])
+	if (keys[GLFW_KEY_N])
 	{
 		if (ciclo < 1)
 		{
@@ -1394,17 +1511,49 @@ void inputKeyframes(bool* keys)
 			printf("\n movPelotaZ es: %f\n", movPelotaZ);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla N para poder habilitar la variable\n");
+			printf("\n Presiona la tecla M para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_N])
+	if (keys[GLFW_KEY_M])
 	{
 		if (ciclo2 < 1)
 		{
 			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla B o H\n");
+			printf("\n Ya puedes modificar tu variable presionando la tecla B o N\n");
 		}
 	}
 
+}
+
+void iniciaAnimacionKeyframe() {
+	if (reproduciranimacion < 1)
+	{
+		if (play == false && (FrameIndex > 1))
+		{
+			resetElements();
+			//First Interpolation				
+			interpolation();
+			play = true;
+			playIndex = 0;
+			i_curr_steps = 0;
+			reproduciranimacion++;
+			printf("\n acciona la palanca con el click derecho para habilitar la animación'\n");
+			habilitaranimacion = 0;
+
+		}
+		else
+		{
+			play = false;
+
+		}
+	}
+}
+
+void reseteaAnimacionKeyframe() {
+	if (habilitaranimacion < 1 && reproduciranimacion>0)
+	{
+		printf("Ya puedes reproducir de nuevo la animacion soltando el click derecho'\n");
+		reproduciranimacion = 0;
+	}
 }
