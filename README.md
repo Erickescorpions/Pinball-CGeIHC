@@ -8,4 +8,4 @@ Autores:
 
 ### Texturas y Modelos: 
 Para obtener las texturas y modelos para probar este proyecto:
-<https://drive.google.com/drive/folders/1KBeEoGD1PvPEgOX0KFQ7Wd71tI9iXubl?usp=sharing>
+<https://drive.google.com/drive/folders/1hQQxz0rHjgoXObtUL4NTtE9HIbTXL_Re?usp=sharing>
