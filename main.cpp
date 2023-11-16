@@ -78,6 +78,7 @@ Texture FlechaTexture;
 Texture NumerosTexture;
 Texture Numero1Texture;
 Texture Numero2Texture;
+Texture sillonRojo;
 
 
 
@@ -85,6 +86,13 @@ Model Kitt_M;
 Model Llanta_M;
 Model Blackhawk_M;
 Model torsoGojo;
+//Modelos para el conejo
+Model pataDI;
+Model pataTI;
+Model pataDD;
+Model pataTD;
+Model cara;
+Model torso;
 
 Skybox skybox;
 
@@ -259,9 +267,25 @@ void CreateObjects()
 	};
 
 	unsigned int cuboIndices[] = {
+		//Cara frontal
 		0,1,2,
 		2,0,3,
-		0,3,5,
+		//Cara derecha
+		4,5,6,
+		5,6,7,
+		//Cara izquierda
+		8,9,10,
+		9,10,11,
+		//Cara trasera
+		12,13,14,
+		13,14,15,
+		//Cara superior
+		16,17,18,
+		17,18,19,
+		//Cara inferior
+		20,21,22,
+		21,22,23,
+		/*0,3,5,
 		3,4,5,
 		4,5,7,
 		4,6,7,
@@ -270,21 +294,45 @@ void CreateObjects()
 		0,7,5,
 		0,7,1, 
 		2,3,6,
-		3,6,4,
+		3,6,4,*/
 	};
 
 	GLfloat cuboVertices[] = {
-		0.0f, 2.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //A - 0
-		0.0f, -2.0f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //B - 1
-		0.0f, -2.0f, 4.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //C - 2
-		0.0f, 2.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //D - 3
+		//Cara frontal
+		-2.0f, 0.0f, 0.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //A - 0
+		2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //B - 1
+		2.0f, 4.0f, 0.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //C - 2
+		-2.0f, 4.0f, 0.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //D - 3
 
-		4.0f, 2.0f, 4.0f,   0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //E - 4
-		4.0f, 2.0f, 0.0f,   0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //F - 5
+		//Cara derecha
+		2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //E - 4
+		2.0f, 4.0f, 0.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //F - 5
+		2.0f, 0.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //G - 6
+		2.0f, 4.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //H - 7
 
-		4.0f, -2.0f, 4.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //G - 6
-		4.0f, -2.0f, 0.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //H - 7
+		//Cara izquierda
+		-2.0f, 0.0f, 0.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //I - 8
+		-2.0f, 4.0f, 0.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //J - 9
+		-2.0f, 0.0f, -4.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //K - 10
+		-2.0f, 4.0f, -4.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //L - 11
 
+		//Cara trasera
+		-2.0f, 0.0f, -4.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //M - 12
+		-2.0f, 4.0f, -4.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //N - 13
+		2.0f, 0.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //Ñ - 14
+		2.0f, 4.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //O - 15
+		
+		//Cara superior
+		-2.0f, 4.0f, 0.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //P- 16
+		2.0f, 4.0f, 0.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //Q - 17
+		-2.0f, 4.0f, -4.0,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f, //R - 18
+		2.0f, 4.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //S - 19
+
+		//Cara inferior
+		-2.0f, 0.0f, 0.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //T - 20
+		-2.0f, 0.0f, -4.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //U - 21
+		2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //V - 22
+		2.0f, 0.0f, -4.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //W - 23
 	};
 
 	Mesh *obj1 = new Mesh();
@@ -321,7 +369,7 @@ void CreateObjects()
 	meshList.push_back(obj8);
 
 	Mesh* obj9 = new Mesh();
-	obj9->CreateMesh(cuboVertices, cuboIndices, 64, 36);
+	obj9->CreateMesh(cuboVertices, cuboIndices, 192, 36);
 	meshList.push_back(obj9);
 
 }
@@ -488,7 +536,7 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 5.0f, 0.5f);
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 3.0f, 0.5f);
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -508,6 +556,8 @@ int main()
 	Numero1Texture.LoadTextureA();
 	Numero2Texture = Texture("Textures/numero2.tga");
 	Numero2Texture.LoadTextureA();
+	sillonRojo = Texture("Textures/sillonRojo.tga");
+	sillonRojo.LoadTexture();
 
 
 
@@ -543,6 +593,24 @@ int main()
 
 	Model ojoGojo_M = Model();
 	ojoGojo_M.LoadModel("Models/Pinball/ojo.obj");
+
+	pataDD = Model();
+	pataDD.LoadModel("Models/Conejo/pataDelanteraDerecha.obj");
+
+	pataDI = Model();
+	pataDI.LoadModel("Models/Conejo/pataDelanteraIzquierda.obj");
+
+	pataTD = Model();
+	pataTD.LoadModel("Models/Conejo/pataTraseraDerecha.obj");
+
+	pataTI = Model();
+	pataTI.LoadModel("Models/Conejo/pataTraseraIzquierda.obj");
+
+	cara = Model();
+	cara.LoadModel("Models/Conejo/cara.obj");
+
+	torso = Model();
+	torso.LoadModel("Models/Conejo/torso.obj");
 
 
 	std::vector<std::string> skyboxFaces;
@@ -749,6 +817,8 @@ int main()
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
+		glm::mat4 modelauxConejo(1.0);
+		glm::mat4 modelauxConejo2(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 		
@@ -770,7 +840,9 @@ int main()
 		//color = glm::vec3(0.0f, 0.0f, 1.0f);
 		model = glm::translate(model, glm::vec3(-50.0f, 6.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		sillonRojo.UseTexture();
 		meshList[8]->RenderMesh();
 
 		
@@ -811,6 +883,54 @@ int main()
 		/*if (mainWindow.imprimirPosicion()) {
 			std::cout << "x: " << posicionGojo.x << "y: " << posicionGojo.y << "z: " << posicionGojo.z << std::endl;
 		}*/
+
+		//===================================Cuerpo del conejito===============================================
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3 ( - 70.0f, 5.0f, 0.0f));
+		modelauxConejo = model;
+		modelauxConejo2 = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		torso.RenderModel();
+
+		//===================================Pata delantera derecha del conejito===============================================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(0.3f, 1.2f, 0.2f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDD.RenderModel();
+
+		//===================================Pata delantera izquierda del conejito===============================================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.69f, 0.2f, -0.04f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataDI.RenderModel();
+
+		//===================================Pata trasera izquierda del conejito===============================================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(-0.3f, -0.37f, -1.1f));
+		modelauxConejo = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTI.RenderModel();
+
+		//===================================Pata trasera derecha del conejito===============================================
+		model = modelauxConejo;
+		model = glm::translate(model, glm::vec3(1.0f, 0.2f, -0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pataTD.RenderModel();
+
+		//===================================Cabecita del conejito===============================================
+		model = modelauxConejo2;
+		model = glm::translate(model, glm::vec3(0.0f, 1.2f, 0.8f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		cara.RenderModel();
+
 
 		// ========================= Piernas gojo =========================
 
