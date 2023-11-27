@@ -69,8 +69,6 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-Camera camera;
-
 Texture brickTexture;
 Texture dirtTexture;
 Texture plainTexture;
@@ -491,7 +489,13 @@ int main()
 	CreateObjects();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 3.0f, 0.5f);
+
+	Camera camaraIsometrica;
+	Camera camaraPersonaje;
+	Camera* camera;
+
+	camaraIsometrica = Camera(glm::vec3(78.5, 550.0f, 350.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.0f, 0.5f);
+	camaraPersonaje = Camera(glm::vec3(90.0f, 240.0f, 427.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 3.0f, 0.5f);
 
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
@@ -751,20 +755,24 @@ int main()
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-		inputKeyframes(mainWindow.getsKeys());
 
-		// camara isometrica
-		if (!mainWindow.getCamara()) {
-			camera.setPosition(78.5, 550.0f, 350.0f);
+		if (mainWindow.getCamara()) {
+
+			camera = &camaraPersonaje;
+		}
+		else {
+			camera = &camaraIsometrica;
+			camera->setPosition(78.5, 550.0f, 350.0f);
 		}
 
+		camera->keyControl(mainWindow.getsKeys(), deltaTime);
+		camera->mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		inputKeyframes(mainWindow.getsKeys());
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		skybox.DrawSkybox(camera->calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -778,13 +786,13 @@ int main()
 		uniformShininess = shaderList[0].GetShininessLocation();
 
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
-		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
+		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
 		// luz ligada a la cámara de tipo flash
-		glm::vec3 lowerLight = camera.getCameraPosition();
+		glm::vec3 lowerLight = camera->getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLightsMap["linterna"].SetFlash(lowerLight, camera.getCameraDirection());
+		spotLightsMap["linterna"].SetFlash(lowerLight, camera->getCameraDirection());
 
 		// =================== Paso de map a array =================== 
 		// pasamos el contenido de los mapas a las listas
@@ -827,17 +835,9 @@ int main()
 		meshList[8]->RenderMesh();
 
 		
-		// ========================= Para posicionar la camara en el avatar =========================
+		// ========================= Para posicionar el avatar en la camara =========================
 		if (mainWindow.getCamara()) {
-			if (!cambioPersonaje) {
-				camera.setPosition(posicionGojo.x, posicionGojo.y + 15.0f, posicionGojo.z + 40.0f);
-				cambioPersonaje = true;
-			}
-
-			posicionGojo =  glm::vec3(camera.getCameraPosition().x, camera.getCameraPosition().y - 15.0f, camera.getCameraPosition().z - 40.0f);
-		}
-		else {
-			cambioPersonaje = false;
+			posicionGojo =  glm::vec3(camera->getCameraPosition().x, camera->getCameraPosition().y - 15.0f, camera->getCameraPosition().z - 40.0f);
 		}
 
 		spotLightsMap["avatar"].SetPos(glm::vec3(posicionGojo.x, posicionGojo.y + 60.0f, posicionGojo.z));
@@ -845,7 +845,6 @@ int main()
 		/*if (mainWindow.imprimirPosicion()) {
 			std::cout << "x: " << posicionGojo.x << "y: " << posicionGojo.y << "z: " << posicionGojo.z << std::endl;
 		}*/
-
 
 		// ========================= Piernas gojo =========================
 
