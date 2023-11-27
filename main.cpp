@@ -644,8 +644,8 @@ int main()
 
 	// variables para la animacion del resorte/palanca
 	bool animacionResorteContrae = false;
-	const float contraeResorteOffset = 0.5f;
-	const float muevePalancaOffset = 0.5f;
+	const float contraeResorteOffset = 0.2f;
+	const float muevePalancaOffset = 0.2f;
 	float contraeResorte = 100.0f;
 	float muevePalanca = 0.0f;
 
@@ -876,9 +876,10 @@ int main()
 		model = glm::translate(model, glm::vec3(15.0f, -1.0f, -90.0f));
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
-		
 		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -916,7 +917,7 @@ int main()
 
 		if (animacionResorteContrae) {
 			
-			if (muevePalanca <= 35.0f) {
+			if (muevePalanca <= 25.0f) {
 
 				muevePalanca += muevePalancaOffset * deltaTime;
 				
@@ -943,6 +944,7 @@ int main()
 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(posXPelota + movPelotaX, posYPelota + movPelotaY, posZPelota + movPelotaZ));
+		model = glm::rotate(model, glm::radians(-15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		pelota_M.RenderModel();
@@ -1320,20 +1322,8 @@ void inputKeyframes(bool* keys)
 		}
 	}
 
-	// tecla 1 desplaza en x
-	if (keys[GLFW_KEY_F])
-	{
-		if (ciclo < 1)
-		{
-			movPelotaX += 1.0f;
-			printf("\n movPelotaX es: %f\n", movPelotaX);
-			ciclo++;
-			ciclo2 = 0;
-			printf("\n Presiona la tecla H para poder habilitar la variable\n");
-		}
-
-	}
-	if (keys[GLFW_KEY_G])
+	// tecla H desplaza en x negativo
+	if (keys[GLFW_KEY_H])
 	{
 		if (ciclo < 1)
 		{
@@ -1341,85 +1331,59 @@ void inputKeyframes(bool* keys)
 			printf("\n movPelotaX es: %f\n", movPelotaX);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla H para poder habilitar la variable\n");
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_H])
-	{
-		if (ciclo2 < 1)
-		{
-			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla F(+) o G(-)\n");
-		}
-	}
 
-	// tecla 1 desplaza en y
+	// tecla J desplaza en x positivo
 	if (keys[GLFW_KEY_J])
 	{
 		if (ciclo < 1)
 		{
-			movPelotaY += 1.0f;
-			printf("\n movPelotaY es: %f\n", movPelotaY);
+			movPelotaX += 1.0f;
+			printf("\n movPelotaX es: %f\n", movPelotaX);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla L para poder habilitar la variable\n");
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
 		}
 
 	}
+
+	// tecla K desplaza en z positivo
 	if (keys[GLFW_KEY_K])
 	{
 		if (ciclo < 1)
 		{
-			movPelotaY -= 1.0f;
-			printf("\n movPelotaY es: %f\n", movPelotaY);
-			ciclo++;
-			ciclo2 = 0;
-			printf("\n Presiona la tecla L para poder habilitar la variable\n");
-		}
-
-	}
-
-	if (keys[GLFW_KEY_L])
-	{
-		if (ciclo2 < 1)
-		{
-			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla J o K\n");
-		}
-	}
-
-	// tecla 1 desplaza en z
-	if (keys[GLFW_KEY_B])
-	{
-		if (ciclo < 1)
-		{
 			movPelotaZ += 1.0f;
-			printf("\n movPelotaZ es: %f\n", movPelotaZ);
+			printf("\n movPelotaZ es: %f\n", movPelotaY);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla M para poder habilitar la variable\n");
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_N])
+
+	// tecla L desplaza en Z negativo
+	if (keys[GLFW_KEY_K])
 	{
 		if (ciclo < 1)
 		{
 			movPelotaZ -= 1.0f;
-			printf("\n movPelotaZ es: %f\n", movPelotaZ);
+			printf("\n movPelotaZ es: %f\n", movPelotaY);
 			ciclo++;
 			ciclo2 = 0;
-			printf("\n Presiona la tecla M para poder habilitar la variable\n");
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
 		}
 
 	}
-	if (keys[GLFW_KEY_M])
+
+	if (keys[GLFW_KEY_I])
 	{
 		if (ciclo2 < 1)
 		{
 			ciclo = 0;
-			printf("\n Ya puedes modificar tu variable presionando la tecla B o N\n");
+			printf("\n Ya puedes modificar la posicion\n");
 		}
 	}
 
