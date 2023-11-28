@@ -21,6 +21,8 @@ Autores:
 #include <map>
 #include <array>
 
+#include <fstream>
+
 #include <glew.h>
 #include <glfw3.h>
 
@@ -419,6 +421,24 @@ void saveFrame(void) //tecla L
 	KeyFrame[FrameIndex].movPelotaX = movPelotaX;
 	KeyFrame[FrameIndex].movPelotaY = movPelotaY;
 	KeyFrame[FrameIndex].movPelotaZ = movPelotaZ;
+
+	// Serializar y guardar en un archivo
+	std::ofstream archivo("keyframes.txt");
+
+	if (archivo.is_open())
+	{
+		archivo << "KeyFrame[" << FrameIndex << "].movPelotaX = " << KeyFrame[FrameIndex].movPelotaX << std::endl;
+		archivo << "KeyFrame[" << FrameIndex << "].movPelotaY = " << KeyFrame[FrameIndex].movPelotaY << std::endl;
+		archivo << "KeyFrame[" << FrameIndex << "].movPelotaZ = " << KeyFrame[FrameIndex].movPelotaZ << std::endl;
+		archivo << std::endl; // Separador entre keyframes
+		
+		archivo.close();
+		std::cout << "Datos guardados correctamente en keyframes.txt" << std::endl;
+	}
+	else
+	{
+		std::cerr << "Error al abrir el archivo." << std::endl;
+	}
 	
 	//no volatil, agregar una forma de escribir a un archivo para guardar los frames
 	FrameIndex++;
@@ -675,57 +695,57 @@ int main()
 	KeyFrame[0].movPelotaY = 0.0f;
 	KeyFrame[0].movPelotaZ = 0.0f;
 
-	KeyFrame[1].movPelotaX = -300.0f;
-	KeyFrame[1].movPelotaY = 26.0f;
-	KeyFrame[1].movPelotaZ = 0.0f;
+	//KeyFrame[1].movPelotaX = -300.0f;
+	//KeyFrame[1].movPelotaY = 26.0f;
+	//KeyFrame[1].movPelotaZ = 0.0f;
 
-	KeyFrame[2].movPelotaX = -313.0f;
-	KeyFrame[2].movPelotaY = 26.0f;
-	KeyFrame[2].movPelotaZ = 10.0f;
+	//KeyFrame[2].movPelotaX = -313.0f;
+	//KeyFrame[2].movPelotaY = 26.0f;
+	//KeyFrame[2].movPelotaZ = 10.0f;
 
-	KeyFrame[3].movPelotaX = -320.0f;
-	KeyFrame[3].movPelotaY = 26.0f;
-	KeyFrame[3].movPelotaZ = 20.0f;
+	//KeyFrame[3].movPelotaX = -320.0f;
+	//KeyFrame[3].movPelotaY = 26.0f;
+	//KeyFrame[3].movPelotaZ = 20.0f;
 
-	KeyFrame[4].movPelotaX = -320.0f;
-	KeyFrame[4].movPelotaY = 26.0f;
-	KeyFrame[4].movPelotaZ = 68.0f;
+	//KeyFrame[4].movPelotaX = -320.0f;
+	//KeyFrame[4].movPelotaY = 26.0f;
+	//KeyFrame[4].movPelotaZ = 68.0f;
 
-	KeyFrame[5].movPelotaX = -297.0f;
-	KeyFrame[5].movPelotaY = 23.0f;
-	KeyFrame[5].movPelotaZ = 78.0f;
+	//KeyFrame[5].movPelotaX = -297.0f;
+	//KeyFrame[5].movPelotaY = 23.0f;
+	//KeyFrame[5].movPelotaZ = 78.0f;
 
-	KeyFrame[6].movPelotaX = -293.0f;
-	KeyFrame[6].movPelotaY = 23.0f;
-	KeyFrame[6].movPelotaZ = 58.0f;
+	//KeyFrame[6].movPelotaX = -293.0f;
+	//KeyFrame[6].movPelotaY = 23.0f;
+	//KeyFrame[6].movPelotaZ = 58.0f;
 
-	KeyFrame[7].movPelotaX = -278.0f;
-	KeyFrame[7].movPelotaY = 23.0f;
-	KeyFrame[7].movPelotaZ = 48.0f;
+	//KeyFrame[7].movPelotaX = -278.0f;
+	//KeyFrame[7].movPelotaY = 23.0f;
+	//KeyFrame[7].movPelotaZ = 48.0f;
 
-	KeyFrame[8].movPelotaX = -188.0f;
-	KeyFrame[8].movPelotaY = 16.0f;
-	KeyFrame[8].movPelotaZ = 48.0f;
+	//KeyFrame[8].movPelotaX = -188.0f;
+	//KeyFrame[8].movPelotaY = 16.0f;
+	//KeyFrame[8].movPelotaZ = 48.0f;
 
-	KeyFrame[9].movPelotaX = -108.0f;
-	KeyFrame[9].movPelotaY = 16.0f;
-	KeyFrame[9].movPelotaZ = 48.0f;
+	//KeyFrame[9].movPelotaX = -108.0f;
+	//KeyFrame[9].movPelotaY = 16.0f;
+	//KeyFrame[9].movPelotaZ = 48.0f;
 
-	KeyFrame[10].movPelotaX = -203.0f;
-	KeyFrame[10].movPelotaY = 18.0f;
-	KeyFrame[10].movPelotaZ = 81.0f;
+	//KeyFrame[10].movPelotaX = -203.0f;
+	//KeyFrame[10].movPelotaY = 18.0f;
+	//KeyFrame[10].movPelotaZ = 81.0f;
 
-	KeyFrame[11].movPelotaX = -8.0f;
-	KeyFrame[11].movPelotaY = 0.0f;
-	KeyFrame[11].movPelotaZ = 81.0f;
+	//KeyFrame[11].movPelotaX = -8.0f;
+	//KeyFrame[11].movPelotaY = 0.0f;
+	//KeyFrame[11].movPelotaZ = 81.0f;
 
-	KeyFrame[12].movPelotaX = -6.0f;
-	KeyFrame[12].movPelotaY = 0.0f;
-	KeyFrame[12].movPelotaZ = 61.0f;
+	//KeyFrame[12].movPelotaX = -6.0f;
+	//KeyFrame[12].movPelotaY = 0.0f;
+	//KeyFrame[12].movPelotaZ = 61.0f;
 
-	KeyFrame[13].movPelotaX = 0.0f;
-	KeyFrame[13].movPelotaY = 0.0f;
-	KeyFrame[13].movPelotaZ = 0.0f;
+	//KeyFrame[13].movPelotaX = 0.0f;
+	//KeyFrame[13].movPelotaY = 0.0f;
+	//KeyFrame[13].movPelotaZ = 0.0f;
 
 
 	// variables animacion conejo
@@ -1350,6 +1370,34 @@ void inputKeyframes(bool* keys)
 
 	}
 
+	// tecla N para y positivas
+	if (keys[GLFW_KEY_N])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaY += 1.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
+		}
+
+	}
+
+	// tecla M desplaza en y negativo
+	if (keys[GLFW_KEY_M])
+	{
+		if (ciclo < 1)
+		{
+			movPelotaY -= 1.0f;
+			printf("\n movPelotaY es: %f\n", movPelotaY);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
+		}
+
+	}
+
 	// tecla K desplaza en z positivo
 	if (keys[GLFW_KEY_K])
 	{
@@ -1365,7 +1413,7 @@ void inputKeyframes(bool* keys)
 	}
 
 	// tecla L desplaza en Z negativo
-	if (keys[GLFW_KEY_K])
+	if (keys[GLFW_KEY_L])
 	{
 		if (ciclo < 1)
 		{
