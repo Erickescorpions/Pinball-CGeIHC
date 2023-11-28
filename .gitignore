@@ -366,3 +366,5 @@ FodyWeavers.xsd
 # Texturas y Modelos
 #Textures/
 #Models/
+
+*.rar
