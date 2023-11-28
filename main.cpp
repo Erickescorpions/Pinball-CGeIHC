@@ -94,6 +94,9 @@ Model pataTD;
 Model cara;
 Model torso;
 
+//Modelo para el purpura
+Model esfera;
+
 Skybox skybox;
 
 //materiales
@@ -523,6 +526,7 @@ int main()
 	Model santuario_M = Model();
 	santuario_M.LoadModel("Models/SantuarioMalevolo/SantuarioMalevolo.obj");
 	
+	//Modelos para el avatar=========================================================================
 	Model torsoGojo_M = Model();
 	torsoGojo_M.LoadModel("Models/Gojo/torsoSuperior.obj");
 
@@ -531,6 +535,9 @@ int main()
 
 	Model piernasGojo_M = Model();
 	piernasGojo_M.LoadModel("Models/Gojo/piernasGojo.obj");
+
+	esfera = Model();
+	esfera.LoadModel("Models/Gojo/esfera.obj");
 
 	Model dedoSukuna_M = Model();
 	dedoSukuna_M.LoadModel("Models/DedoSukuna/DedoSukuna.obj");
@@ -806,6 +813,7 @@ int main()
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
+		glm::mat4 modelauxPurpura(1.0);
 		glm::mat4 modelauxConejo(1.0);
 		glm::mat4 modelauxConejo2(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
