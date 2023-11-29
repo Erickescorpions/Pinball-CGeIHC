@@ -32,6 +32,9 @@ Autores:
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
+// biblioteca de audio
+#include <irrklang\irrKlang.h>
+
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
@@ -683,6 +686,28 @@ int main()
 	// ================== copiando el contenido de los mapas a los aux ==================
 	pointLightsMapAux = pointLightsMap;
 	spotLightsMapAux = spotLightsMap;
+	
+	// ================== libreria de sonido ===============
+	// motor de sonido
+	irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
+
+	float volumen2d = 0.01f; // Por ejemplo, establecer el volumen al 70%
+	SoundEngine->setSoundVolume(volumen2d);
+
+	if (!SoundEngine)
+		return 0; // error starting up the engine
+
+	// sonido 2D
+	SoundEngine->play2D("audio/JujutsuKaisen[OST].mp3", true);
+
+	irrklang::ISound* sonidoPinball = SoundEngine->play3D("audio/PINBALL.mp3",
+		irrklang::vec3df(83.0f, 180.0f, 65.0f), true, false, true);
+
+	if (sonidoPinball) {
+		sonidoPinball->setMinDistance(1000.0f);
+		float volumen3d = 1.0f; // Por ejemplo, establecer el volumen al 50%
+		sonidoPinball->setVolume(volumen3d);
+	}
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
