@@ -1,0 +1,40 @@
+KeyFrame[1].movPelotaX = -35
+KeyFrame[1].movPelotaY = 2
+KeyFrame[1].movPelotaZ = 0
+KeyFrame[1].rotaPelota = 30
+
+KeyFrame[2].movPelotaX = -81
+KeyFrame[2].movPelotaY = 7
+KeyFrame[2].movPelotaZ = 0
+KeyFrame[2].rotaPelota = 0
+
+KeyFrame[3].movPelotaX = -110
+KeyFrame[3].movPelotaY = 10
+KeyFrame[3].movPelotaZ = 0
+KeyFrame[3].rotaPelota = 110
+
+KeyFrame[4].movPelotaX = -191
+KeyFrame[4].movPelotaY = 16
+KeyFrame[4].movPelotaZ = 0
+KeyFrame[4].rotaPelota = 110
+
+KeyFrame[5].movPelotaX = -247
+KeyFrame[5].movPelotaY = 22
+KeyFrame[5].movPelotaZ = 0
+KeyFrame[5].rotaPelota = 250
+
+KeyFrame[6].movPelotaX = -279
+KeyFrame[6].movPelotaY = 22
+KeyFrame[6].movPelotaZ = 0
+KeyFrame[6].rotaPelota = 390
+
+KeyFrame[7].movPelotaX = -306
+KeyFrame[7].movPelotaY = 25
+KeyFrame[7].movPelotaZ = 0
+KeyFrame[7].rotaPelota = 390
+
+KeyFrame[8].movPelotaX = -314
+KeyFrame[8].movPelotaY = 25
+KeyFrame[8].movPelotaZ = 0
+KeyFrame[8].rotaPelota = 410
+

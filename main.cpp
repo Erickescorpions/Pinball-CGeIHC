@@ -418,22 +418,26 @@ bool animacion = false;
 
 //NEW// Keyframes
 float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; 
-float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f;
+float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f, rotaPelota = 0.0f;
 
 #define MAX_FRAMES 100
 int i_max_steps = 90;
-int i_curr_steps = 14;
+int i_curr_steps = 1;
 
 typedef struct _frame
 {
-	float movPelotaX, movPelotaY, movPelotaZ;
-	float movPelotaXInc, movPelotaYInc, movPelotaZInc;
+	float movPelotaX, movPelotaY, movPelotaZ, rotaPelota;
+	float movPelotaXInc, movPelotaYInc, movPelotaZInc, rotaPelotaInc;
 } FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 14;			//introducir datos
+int FrameIndex = 1;			//introducir datos
 bool play = false;
 int playIndex = 0;
+
+// Serializar y guardar en un archivo
+std::ofstream archivo("keyframes.txt");
+
 
 void saveFrame(void) //tecla L
 {
@@ -442,18 +446,17 @@ void saveFrame(void) //tecla L
 	KeyFrame[FrameIndex].movPelotaX = movPelotaX;
 	KeyFrame[FrameIndex].movPelotaY = movPelotaY;
 	KeyFrame[FrameIndex].movPelotaZ = movPelotaZ;
-
-	// Serializar y guardar en un archivo
-	std::ofstream archivo("keyframes.txt");
+	KeyFrame[FrameIndex].rotaPelota = rotaPelota;
+	
 
 	if (archivo.is_open())
 	{
 		archivo << "KeyFrame[" << FrameIndex << "].movPelotaX = " << KeyFrame[FrameIndex].movPelotaX << std::endl;
 		archivo << "KeyFrame[" << FrameIndex << "].movPelotaY = " << KeyFrame[FrameIndex].movPelotaY << std::endl;
 		archivo << "KeyFrame[" << FrameIndex << "].movPelotaZ = " << KeyFrame[FrameIndex].movPelotaZ << std::endl;
+		archivo << "KeyFrame[" << FrameIndex << "].rotaPelota = " << KeyFrame[FrameIndex].rotaPelota << std::endl;
 		archivo << std::endl; // Separador entre keyframes
 		
-		archivo.close();
 		std::cout << "Datos guardados correctamente en keyframes.txt" << std::endl;
 	}
 	else
@@ -470,6 +473,7 @@ void resetElements(void) //Tecla 0
 	movPelotaX = KeyFrame[0].movPelotaX;
 	movPelotaY = KeyFrame[0].movPelotaY;
 	movPelotaZ = KeyFrame[0].movPelotaZ;
+	rotaPelota = KeyFrame[0].rotaPelota;
 }
 
 void interpolation(void)
@@ -477,6 +481,7 @@ void interpolation(void)
 	KeyFrame[playIndex].movPelotaXInc = (KeyFrame[playIndex + 1].movPelotaX - KeyFrame[playIndex].movPelotaX) / i_max_steps;
 	KeyFrame[playIndex].movPelotaYInc = (KeyFrame[playIndex + 1].movPelotaY - KeyFrame[playIndex].movPelotaY) / i_max_steps;
 	KeyFrame[playIndex].movPelotaZInc = (KeyFrame[playIndex + 1].movPelotaZ - KeyFrame[playIndex].movPelotaZ) / i_max_steps;
+	KeyFrame[playIndex].rotaPelotaInc = (KeyFrame[playIndex + 1].rotaPelota - KeyFrame[playIndex].rotaPelota) / i_max_steps;
 }
 
 void animate(void)
@@ -509,6 +514,7 @@ void animate(void)
 			movPelotaX += KeyFrame[playIndex].movPelotaXInc;
 			movPelotaY += KeyFrame[playIndex].movPelotaYInc;
 			movPelotaZ += KeyFrame[playIndex].movPelotaZInc;
+			movPelotaZ += KeyFrame[playIndex].rotaPelota;
 			i_curr_steps++;
 		}
 
@@ -724,6 +730,7 @@ int main()
 	KeyFrame[0].movPelotaX = 0.0f;
 	KeyFrame[0].movPelotaY = 0.0f;
 	KeyFrame[0].movPelotaZ = 0.0f;
+	KeyFrame[0].rotaPelota = 0.0f;
 
 	//KeyFrame[1].movPelotaX = -300.0f;
 	//KeyFrame[1].movPelotaY = 26.0f;
@@ -1396,6 +1403,8 @@ int main()
 		mainWindow.swapBuffers();
 	} // ======================================== Fin del loop  ========================================
 
+
+	archivo.close();
 	return 0;
 } 
 
@@ -1489,7 +1498,7 @@ void inputKeyframes(bool* keys)
 		if (ciclo < 1)
 		{
 			movPelotaZ += 1.0f;
-			printf("\n movPelotaZ es: %f\n", movPelotaY);
+			printf("\n movPelotaZ es: %f\n", movPelotaZ);
 			ciclo++;
 			ciclo2 = 0;
 			printf("\n Presiona la tecla I para poder habilitar la variable\n");
@@ -1503,7 +1512,21 @@ void inputKeyframes(bool* keys)
 		if (ciclo < 1)
 		{
 			movPelotaZ -= 1.0f;
-			printf("\n movPelotaZ es: %f\n", movPelotaY);
+			printf("\n movPelotaZ es: %f\n", movPelotaZ);
+			ciclo++;
+			ciclo2 = 0;
+			printf("\n Presiona la tecla I para poder habilitar la variable\n");
+		}
+
+	}
+
+	// tecla L desplaza en Z negativo
+	if (keys[GLFW_KEY_B])
+	{
+		if (ciclo < 1)
+		{
+			rotaPelota += 10.0f;
+			printf("\n rotaPelota es: %f\n", rotaPelota);
 			ciclo++;
 			ciclo2 = 0;
 			printf("\n Presiona la tecla I para poder habilitar la variable\n");
