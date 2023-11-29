@@ -70,6 +70,20 @@ float toffsetnumerov = 0.0f;
 float toffsetnumerocambiau = 0.0;
 float angulovaria = 0.0f;
 
+//==================================Variables para la animacion de la bola======================================
+float movBallX;
+float movBallY;
+float movBallZ;
+
+float rotBall;
+
+bool yPositiva;
+bool yNegativa;
+bool xPositiva;
+bool xNegativa;
+bool zPositiva;
+bool zNegativa;
+
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -991,7 +1005,31 @@ int main()
 	// variables animacion conejo
 	// ========= variables para animación de la bola =========
 	float movOffset = 0.05f;
+	float movOffsetX = 0.35f;
+	float movOffsetY = 0.027f;
+	float movOffsetZ = 0.35f;
 	float movBola = 0.0f;
+
+	movBallX = 398.0f;
+	movBallY = 184.0f;
+	movBallZ = -156.0f;
+
+	rotBall = 0.0f;
+	float rotBallOffset = 5.0f;
+
+	xPositiva = true;
+	xNegativa = false;
+	yPositiva = false;
+	yNegativa = false;
+	zPositiva = false;
+	zNegativa = false;
+	bool rebotePiramide = false;
+	bool rebotePared = false;
+	bool reboteSantuario = false;
+	bool reboteConejo1 = false;
+	bool rebotePared2 = false;
+	bool rebotePared3 = false;
+	bool rebotePared4 = false;
 
 	float movConejoOffset = 0.05f;
 	float movConejo = 0.0f;
@@ -1105,6 +1143,161 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
 		meshList[2]->RenderMesh();
+
+		//========================== Animacion pelota 1 =======================================================
+		if ( xPositiva == true )
+		{
+			if (movBallX > 85.f) {
+				movBallX -= movOffsetX * deltaTime;
+				if ( movBallX < 340.0f)
+				{
+					movBallY += movOffsetY * deltaTime;
+				}
+			}
+			else
+			{
+				xPositiva = false;
+				zNegativa = true;
+
+			}
+			rotBall += rotBallOffset * deltaTime;
+		}
+
+		if (zNegativa == true)
+		{
+			if (movBallZ < -20.0f)
+			{
+				movBallZ += movOffsetZ * deltaTime;
+			}
+			else
+			{
+				zNegativa = false;
+				yNegativa = true;
+			}
+		}
+
+		//Rbote para abajo
+		if (yNegativa == true)
+		{
+			if (movBallX < 110.0f)
+			{
+				movBallX += movOffsetX * deltaTime;
+			}
+			else
+			{
+				yNegativa = false;
+				rebotePiramide = true;
+
+			}
+		}
+
+		//Rebote con piramide
+		if (rebotePiramide == true)
+		{
+			if (movBallZ < -16.0f)
+			{
+				movBallZ += movOffsetZ * deltaTime;
+			}
+			else
+			{
+				rebotePiramide = false;
+				rebotePared = true;
+			}
+		}
+
+		//Rebota en la pared
+		if (rebotePared == true)
+		{
+			if (movBallZ > -57.0f)
+			{
+				movBallX += movOffsetX * deltaTime;
+				movBallZ -= movOffsetZ * deltaTime;
+				movBallY -= movOffsetY * deltaTime;
+
+			}
+			else
+			{
+				rebotePared = false;
+				reboteSantuario = true;
+			}
+		}
+
+		//Rebota con el santuario
+		if (reboteSantuario == true)
+		{
+			if (movBallZ < -30.0f)
+			{
+				movBallX += movOffsetX * deltaTime;
+				movBallZ += movOffsetZ * deltaTime;
+				movBallY -= movOffsetY * deltaTime;
+			}
+			else
+			{
+				reboteSantuario = false;
+				reboteConejo1 = true;
+			}
+		}
+
+		//Rebota con el primer conejo
+		if (reboteConejo1 == true)
+		{
+			if (movBallZ > -120.0f)
+			{
+				movBallX += movOffsetX * deltaTime;
+				movBallZ -= movOffsetZ * deltaTime;
+				movBallY -= movOffsetY * deltaTime;
+			}
+			else
+			{
+				reboteConejo1 = false;
+				rebotePared2 = true;
+			}
+		}
+
+		//Segundo rebote a una pared
+		if (rebotePared2 == true)
+		{
+			if (movBallZ < -42.0f)
+			{
+				movBallX += movOffsetX * deltaTime;
+				movBallZ += movOffsetZ * deltaTime;
+				movBallY -= movOffsetY * deltaTime;
+			}
+			else
+			{
+				rebotePared2 = false;
+				rebotePared3 = true;
+			}
+		}
+
+		//Tercera colicion con pared
+		if (rebotePared3 == true)
+		{
+			if (movBallZ > -75.0f)
+			{
+				movBallZ -= movOffsetZ * deltaTime;				
+			}
+			
+			else
+			{
+				rebotePared3 = false;
+				rebotePared4 = true;
+			}
+		}
+
+		//Cuarto choque con pared
+		if (rebotePared4 == true)
+		{
+			if (movBallZ < -73.0f)
+			{
+				if (movBallX < 420.0f)
+				{
+					movBallX += movOffsetX * deltaTime;
+					movBallY -= movOffsetY * deltaTime;
+				}
+			}
+		}
+		
 		
 		// ========================= Para posicionar el avatar en la camara =========================
 		if (mainWindow.getCamara()) {
@@ -1221,6 +1414,14 @@ int main()
 		pelota_M.RenderModel();
 
 		animate();
+
+		//============================= Bola animada ===============================================================
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(movBallX, movBallY, movBallZ));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		model = glm::rotate(model, rotBall * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		pelota_M.RenderModel();
 
 		// ======================== Santuario Malevolo ========================
 		model = modelaux;
