@@ -420,9 +420,9 @@ bool animacion = false;
 float posXPelota = 398.0f, posYPelota = 184.0f, posZPelota = -156.0f; 
 float movPelotaX = 0.0f, movPelotaY = 0.0f, movPelotaZ = 0.0f, rotaPelota = 0.0f;
 
-#define MAX_FRAMES 100
-int i_max_steps = 90;
-int i_curr_steps = 1;
+#define MAX_FRAMES 300
+int i_max_steps = 250;
+int i_curr_steps = 48;
 
 typedef struct _frame
 {
@@ -431,7 +431,7 @@ typedef struct _frame
 } FRAME;
 
 FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 1;			//introducir datos
+int FrameIndex = 48;			//introducir datos
 bool play = false;
 int playIndex = 0;
 
@@ -732,59 +732,241 @@ int main()
 	KeyFrame[0].movPelotaZ = 0.0f;
 	KeyFrame[0].rotaPelota = 0.0f;
 
-	//KeyFrame[1].movPelotaX = -300.0f;
-	//KeyFrame[1].movPelotaY = 26.0f;
-	//KeyFrame[1].movPelotaZ = 0.0f;
+	KeyFrame[1].movPelotaX = -68;
+	KeyFrame[1].movPelotaY = 6;
+	KeyFrame[1].movPelotaZ = 0;
+	KeyFrame[1].rotaPelota = 0;
 
-	//KeyFrame[2].movPelotaX = -313.0f;
-	//KeyFrame[2].movPelotaY = 26.0f;
-	//KeyFrame[2].movPelotaZ = 10.0f;
+	KeyFrame[2].movPelotaX = -99.9999;
+	KeyFrame[2].movPelotaY = 9;
+	KeyFrame[2].movPelotaZ = 0;
+	KeyFrame[2].rotaPelota = 0;
 
-	//KeyFrame[3].movPelotaX = -320.0f;
-	//KeyFrame[3].movPelotaY = 26.0f;
-	//KeyFrame[3].movPelotaZ = 20.0f;
+	KeyFrame[3].movPelotaX = -171;
+	KeyFrame[3].movPelotaY = 14;
+	KeyFrame[3].movPelotaZ = 0;
+	KeyFrame[3].rotaPelota = 0;
 
-	//KeyFrame[4].movPelotaX = -320.0f;
-	//KeyFrame[4].movPelotaY = 26.0f;
-	//KeyFrame[4].movPelotaZ = 68.0f;
+	KeyFrame[4].movPelotaX = -265;
+	KeyFrame[4].movPelotaY = 22;
+	KeyFrame[4].movPelotaZ = 0;
+	KeyFrame[4].rotaPelota = 0;
 
-	//KeyFrame[5].movPelotaX = -297.0f;
-	//KeyFrame[5].movPelotaY = 23.0f;
-	//KeyFrame[5].movPelotaZ = 78.0f;
+	KeyFrame[5].movPelotaX = -312.999;
+	KeyFrame[5].movPelotaY = 26.9999;
+	KeyFrame[5].movPelotaZ = 0;
+	KeyFrame[5].rotaPelota = 0;
 
-	//KeyFrame[6].movPelotaX = -293.0f;
-	//KeyFrame[6].movPelotaY = 23.0f;
-	//KeyFrame[6].movPelotaZ = 58.0f;
+	KeyFrame[6].movPelotaX = -316.999;
+	KeyFrame[6].movPelotaY = 26.9999;
+	KeyFrame[6].movPelotaZ = 8;
+	KeyFrame[6].rotaPelota = 0;
 
-	//KeyFrame[7].movPelotaX = -278.0f;
-	//KeyFrame[7].movPelotaY = 23.0f;
-	//KeyFrame[7].movPelotaZ = 48.0f;
+	KeyFrame[7].movPelotaX = -316.999;
+	KeyFrame[7].movPelotaY = 26.9999;
+	KeyFrame[7].movPelotaZ = 17;
+	KeyFrame[7].rotaPelota = 0;
 
-	//KeyFrame[8].movPelotaX = -188.0f;
-	//KeyFrame[8].movPelotaY = 16.0f;
-	//KeyFrame[8].movPelotaZ = 48.0f;
+	KeyFrame[8].movPelotaX = -316.998;
+	KeyFrame[8].movPelotaY = 26.9999;
+	KeyFrame[8].movPelotaZ = 44;
+	KeyFrame[8].rotaPelota = 0;
 
-	//KeyFrame[9].movPelotaX = -108.0f;
-	//KeyFrame[9].movPelotaY = 16.0f;
-	//KeyFrame[9].movPelotaZ = 48.0f;
+	KeyFrame[9].movPelotaX = -316.998;
+	KeyFrame[9].movPelotaY = 26.9999;
+	KeyFrame[9].movPelotaZ = 59;
+	KeyFrame[9].rotaPelota = 0;
 
-	//KeyFrame[10].movPelotaX = -203.0f;
-	//KeyFrame[10].movPelotaY = 18.0f;
-	//KeyFrame[10].movPelotaZ = 81.0f;
+	KeyFrame[10].movPelotaX = -314.998;
+	KeyFrame[10].movPelotaY = 26.9999;
+	KeyFrame[10].movPelotaZ = 62;
+	KeyFrame[10].rotaPelota = 0;
 
-	//KeyFrame[11].movPelotaX = -8.0f;
-	//KeyFrame[11].movPelotaY = 0.0f;
-	//KeyFrame[11].movPelotaZ = 81.0f;
+	KeyFrame[11].movPelotaX = -277.998;
+	KeyFrame[11].movPelotaY = 22.9999;
+	KeyFrame[11].movPelotaZ = 62.0001;
+	KeyFrame[11].rotaPelota = 0;
 
-	//KeyFrame[12].movPelotaX = -6.0f;
-	//KeyFrame[12].movPelotaY = 0.0f;
-	//KeyFrame[12].movPelotaZ = 61.0f;
+	KeyFrame[12].movPelotaX = -290.999;
+	KeyFrame[12].movPelotaY = 23.9998;
+	KeyFrame[12].movPelotaZ = 73.0001;
+	KeyFrame[12].rotaPelota = 0;
 
-	//KeyFrame[13].movPelotaX = 0.0f;
-	//KeyFrame[13].movPelotaY = 0.0f;
-	//KeyFrame[13].movPelotaZ = 0.0f;
+	KeyFrame[13].movPelotaX = -290.999;
+	KeyFrame[13].movPelotaY = 23.9998;
+	KeyFrame[13].movPelotaZ = 57.0001;
+	KeyFrame[13].rotaPelota = 0;
 
+	KeyFrame[14].movPelotaX = -313.999;
+	KeyFrame[14].movPelotaY = 26.9998;
+	KeyFrame[14].movPelotaZ = 84.0001;
+	KeyFrame[14].rotaPelota = 0;
 
+	KeyFrame[15].movPelotaX = -317.998;
+	KeyFrame[15].movPelotaY = 26.9997;
+	KeyFrame[15].movPelotaZ = 93.0003;
+	KeyFrame[15].rotaPelota = 0;
+
+	KeyFrame[16].movPelotaX = -293.998;
+	KeyFrame[16].movPelotaY = 24.9997;
+	KeyFrame[16].movPelotaZ = 114;
+	KeyFrame[16].rotaPelota = 0;
+
+	KeyFrame[17].movPelotaX = -285.998;
+	KeyFrame[17].movPelotaY = 23.9995;
+	KeyFrame[17].movPelotaZ = 99.9999;
+	KeyFrame[17].rotaPelota = 0;
+
+	KeyFrame[18].movPelotaX = -280.997;
+	KeyFrame[18].movPelotaY = 23.9993;
+	KeyFrame[18].movPelotaZ = 94.9992;
+	KeyFrame[18].rotaPelota = 0;
+
+	KeyFrame[19].movPelotaX = -271.997;
+	KeyFrame[19].movPelotaY = 22.9993;
+	KeyFrame[19].movPelotaZ = 90.9992;
+	KeyFrame[19].rotaPelota = 0;
+
+	KeyFrame[20].movPelotaX = -247.997;
+	KeyFrame[20].movPelotaY = 22.9993;
+	KeyFrame[20].movPelotaZ = 78.9992;
+	KeyFrame[20].rotaPelota = 0;
+
+	KeyFrame[21].movPelotaX = -255.997;
+	KeyFrame[21].movPelotaY = 21.9993;
+	KeyFrame[21].movPelotaZ = 62.9992;
+	KeyFrame[21].rotaPelota = 0;
+
+	KeyFrame[22].movPelotaX = -247.995;
+	KeyFrame[22].movPelotaY = 21.9991;
+	KeyFrame[22].movPelotaZ = 53.9986;
+	KeyFrame[22].rotaPelota = 0;
+
+	KeyFrame[23].movPelotaX = -229.995;
+	KeyFrame[23].movPelotaY = 19.9991;
+	KeyFrame[23].movPelotaZ = 49.9986;
+	KeyFrame[23].rotaPelota = 0;
+
+	KeyFrame[24].movPelotaX = -229.993;
+	KeyFrame[24].movPelotaY = 19.9989;
+	KeyFrame[24].movPelotaZ = 56.998;
+	KeyFrame[24].rotaPelota = 0;
+
+	KeyFrame[25].movPelotaX = -229.993;
+	KeyFrame[25].movPelotaY = 19.9989;
+	KeyFrame[25].movPelotaZ = 49.998;
+	KeyFrame[25].rotaPelota = 0;
+
+	KeyFrame[26].movPelotaX = -229.993;
+	KeyFrame[26].movPelotaY = 19.9989;
+	KeyFrame[26].movPelotaZ = 55.998;
+	KeyFrame[26].rotaPelota = 0;
+
+	KeyFrame[27].movPelotaX = -229.993;
+	KeyFrame[27].movPelotaY = 19.9989;
+	KeyFrame[27].movPelotaZ = 49.998;
+	KeyFrame[27].rotaPelota = 0;
+
+	KeyFrame[28].movPelotaX = -220.993;
+	KeyFrame[28].movPelotaY = 19.9989;
+	KeyFrame[28].movPelotaZ = 53.998;
+	KeyFrame[28].rotaPelota = 0;
+
+	KeyFrame[29].movPelotaX = -218.991;
+	KeyFrame[29].movPelotaY = 19.9987;
+	KeyFrame[29].movPelotaZ = 48.9974;
+	KeyFrame[29].rotaPelota = 0;
+
+	KeyFrame[30].movPelotaX = -164.989;
+	KeyFrame[30].movPelotaY = 13.9985;
+	KeyFrame[30].movPelotaZ = 61.9969;
+	KeyFrame[30].rotaPelota = 0;
+
+	KeyFrame[31].movPelotaX = -134.987;
+	KeyFrame[31].movPelotaY = 11.9983;
+	KeyFrame[31].movPelotaZ = 71.9964;
+	KeyFrame[31].rotaPelota = 0;
+
+	KeyFrame[32].movPelotaX = -113.984;
+	KeyFrame[32].movPelotaY = 8.9981;
+	KeyFrame[32].movPelotaZ = 36.9961;
+	KeyFrame[32].rotaPelota = 0;
+
+	KeyFrame[33].movPelotaX = -106.982;
+	KeyFrame[33].movPelotaY = 8.99789;
+	KeyFrame[33].movPelotaZ = 37.9957;
+	KeyFrame[33].rotaPelota = 0;
+
+	KeyFrame[34].movPelotaX = -103.982;
+	KeyFrame[34].movPelotaY = 8.99789;
+	KeyFrame[34].movPelotaZ = 46.9957;
+	KeyFrame[34].rotaPelota = 0;
+
+	KeyFrame[35].movPelotaX = -98.9798;
+	KeyFrame[35].movPelotaY = 8.99771;
+	KeyFrame[35].movPelotaZ = 58.9953;
+	KeyFrame[35].rotaPelota = 0;
+
+	KeyFrame[36].movPelotaX = -82.9798;
+	KeyFrame[36].movPelotaY = 7.99771;
+	KeyFrame[36].movPelotaZ = 74.9953;
+	KeyFrame[36].rotaPelota = 0;
+
+	KeyFrame[37].movPelotaX = -45.9851;
+	KeyFrame[37].movPelotaY = 3.99692;
+	KeyFrame[37].movPelotaZ = 81.9952;
+	KeyFrame[37].rotaPelota = 0;
+
+	KeyFrame[38].movPelotaX = -5.99027;
+	KeyFrame[38].movPelotaY = -1.00385;
+	KeyFrame[38].movPelotaZ = 81.9953;
+	KeyFrame[38].rotaPelota = 0;
+
+	KeyFrame[39].movPelotaX = -4.99549;
+	KeyFrame[39].movPelotaY = -1.00461;
+	KeyFrame[39].movPelotaZ = 81.9953;
+	KeyFrame[39].rotaPelota = 0;
+
+	KeyFrame[40].movPelotaX = -2.99549;
+	KeyFrame[40].movPelotaY = -1.00461;
+	KeyFrame[40].movPelotaZ = 69.9953;
+	KeyFrame[40].rotaPelota = 0;
+
+	KeyFrame[41].movPelotaX = -1.99549;
+	KeyFrame[41].movPelotaY = -1.00461;
+	KeyFrame[41].movPelotaZ = 60.9953;
+	KeyFrame[41].rotaPelota = 0;
+
+	KeyFrame[42].movPelotaX = -0.995494;
+	KeyFrame[42].movPelotaY = -1.00461;
+	KeyFrame[42].movPelotaZ = 51.9953;
+	KeyFrame[42].rotaPelota = 0;
+
+	KeyFrame[43].movPelotaX = 0.00450611;
+	KeyFrame[43].movPelotaY = -1.00461;
+	KeyFrame[43].movPelotaZ = 43.9953;
+	KeyFrame[43].rotaPelota = 0;
+
+	KeyFrame[44].movPelotaX = 0.00450611;
+	KeyFrame[44].movPelotaY = -1.00461;
+	KeyFrame[44].movPelotaZ = 31.9953;
+	KeyFrame[44].rotaPelota = 0;
+
+	KeyFrame[45].movPelotaX = 0.999277;
+	KeyFrame[45].movPelotaY = -1.00538;
+	KeyFrame[45].movPelotaZ = 19.9957;
+	KeyFrame[45].rotaPelota = 0;
+
+	KeyFrame[46].movPelotaX = 0.999277;
+	KeyFrame[46].movPelotaY = -1.00538;
+	KeyFrame[46].movPelotaZ = 4.99569;
+	KeyFrame[46].rotaPelota = 0;
+
+	KeyFrame[47].movPelotaX = 0.994045;
+	KeyFrame[47].movPelotaY = -1.00615;
+	KeyFrame[47].movPelotaZ = -0.0039382;
+	KeyFrame[47].rotaPelota = 0;
+	
 	// variables animacion conejo
 	// ========= variables para animación de la bola =========
 	float movOffset = 0.05f;
