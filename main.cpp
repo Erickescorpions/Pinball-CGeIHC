@@ -79,7 +79,7 @@ Texture NumerosTexture;
 Texture Numero1Texture;
 Texture Numero2Texture;
 Texture sillonRojo;
-
+Texture piedra;
 
 
 Model Kitt_M;
@@ -249,21 +249,23 @@ void CreateObjects()
 		0, 3, 4,
 		0, 4, 5,
 		5, 0, 6,
-		3, 6, 0,
+		2, 6, 0,
 		3, 2, 6,
 		3, 5, 6,
 	};
 
 	GLfloat piramideVertices[] = {
-		0.0f, 0.0f, 4.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //G - 0
-		1.0f, 1.52f, 0.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f, //F - 1
-		2.0f, 0.0f, 0.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f, //E - 2
-		0.0f, 3.0f, 0.0,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
-		-1.0f, 1.5f, 0.0f,   0.0f, 0.0f,	0.0f, -1.0f, 0.0f, //I - 4
+		0.0f, 0.0f, 4.0,	0.5f, 1.0f,		0.0f, -1.0f, 0.0f, //G - 0
+		1.0f, 1.52f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //F - 1
+		2.0f, 0.0f, 0.0f,	0.5f, 0.0f,		0.0f, -1.0f, 0.0f, //E - 2
+		0.0f, 3.0f, 0.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //H - 3
+
+		-1.0f, 1.5f, 0.0f,   0.5f, 0.0f,	0.0f, -1.0f, 0.0f, //I - 4
 		-2.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //J - 5
-		0.0f, 0.0f, 0.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //K - 6
+		0.0f, 0.0f, 0.0f,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //K - 6
 	};
 
+	//===========================================Primitiva cubo=====================================================================
 	unsigned int cuboIndices[] = {
 		//Cara frontal
 		0,1,2,
@@ -323,6 +325,19 @@ void CreateObjects()
 		2.0f, 0.0f, -4.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f, //W - 23
 	};
 
+	//==============================================Primitiva triangulo=========================================
+	unsigned int trianguloIndices[] = {
+		0,1,2,	
+	};
+
+	GLfloat trianguloVertices[] = {
+	
+		-1.0f, 0.0f, 0.0,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f, //Inferior izquierdo
+		1.0f, 0.0f, 0.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f, //Inferior derecho
+		0.0f, 2.0f, 0.0f,	0.0f, 0.5f,		0.0f, -1.0f, 0.0f, //Punta
+
+	};
+
 	Mesh *obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj1);
@@ -360,6 +375,9 @@ void CreateObjects()
 	obj9->CreateMesh(cuboVertices, cuboIndices, 192, 36);
 	meshList.push_back(obj9);
 
+	Mesh* obj10 = new Mesh();
+	obj10->CreateMesh(trianguloVertices, trianguloIndices, 24, 3);
+	meshList.push_back(obj10);
 }
 
 
@@ -508,6 +526,11 @@ int main()
 	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/piso.tga");
 	pisoTexture.LoadTextureA();
+
+	FlechaTexture = Texture("Textures/flechas.tga");
+	FlechaTexture.LoadTextureA();
+	piedra = Texture("Textures/piedra.tga");
+	piedra.LoadTextureA();
 
 	// ======================== Modelos ========================
 
@@ -830,18 +853,6 @@ int main()
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
 		meshList[2]->RenderMesh();
-
-
-		// ======================= Instanciando primitiva =======================
-		model = glm::mat4(1.0);
-		//color = glm::vec3(0.0f, 0.0f, 1.0f);
-		model = glm::translate(model, glm::vec3(-50.0f, 6.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		sillonRojo.UseTexture();
-		meshList[8]->RenderMesh();
-
 		
 		// ========================= Para posicionar el avatar en la camara =========================
 		if (mainWindow.getCamara()) {
@@ -885,8 +896,8 @@ int main()
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
 		
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		/*model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -987,6 +998,14 @@ int main()
 		model = glm::translate(model, glm::vec3(111.0f, 204.0f, -72.5f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		ojoGojo_M.RenderModel();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(270.0f, 195.0f, -10.0f)); 
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		//model = glm::rotate(model, glm::radians(-5.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		ojoGojo_M.RenderModel();
@@ -1132,7 +1151,7 @@ int main()
 		// ====================== Conejo 2 ======================
 		// ====================== Cuerpo del conejito ======================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(190.0f, 195.0f + nuevaAltura, -15.0f));
+		model = glm::translate(model, glm::vec3(175.0f, 195.0f + nuevaAltura, -115.0f)); 
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelauxConejo = model;
@@ -1182,7 +1201,7 @@ int main()
 		// ====================== Conejo 3 ======================
 		// ====================== Cuerpo del conejito ======================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(150.0f, 199.0f + nuevaAltura, -15.0f));
+		model = glm::translate(model, glm::vec3(270.0f, 189.0f + nuevaAltura, -75.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelauxConejo = model;
@@ -1232,7 +1251,7 @@ int main()
 		// ====================== Conejo 4 ======================
 		// ====================== Cuerpo del conejito ======================
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(150.0f, 199.0f + nuevaAltura, -25.0f));
+		model = glm::translate(model, glm::vec3(320.0f, 185.0f + nuevaAltura, -25.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelauxConejo = model;
@@ -1289,6 +1308,64 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		cristal_M.RenderModel();*/
+
+
+
+		// ======================= Instanciando primitiva =======================	
+		//Primitiva piramide
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(113.0f, 202.0f, -33.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -85 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));//Se la envio al shader
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		piedra.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[7]->RenderMesh();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(113.0f, 202.0f, -110.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -85 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));//Se la envio al shader
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		piedra.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[7]->RenderMesh();
+
+		//Primitiva triangulo
+		toffsetflechau += 0.005;
+		toffsetflechav += 0.0;
+		if (toffsetflechau > 1.0)
+			toffsetflechau = 0.0;
+		toffset = glm::vec2(toffsetflechau, toffsetflechav);
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(353.0f, 182.0f, -72.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -85 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));//Se la envio al shader
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		FlechaTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[9]->RenderMesh();
+
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(250.0f, 192.0f, -110.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -85 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));//Se la envio al shader
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		FlechaTexture.UseTexture();
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[9]->RenderMesh();
 
 		glDisable(GL_BLEND);
 
