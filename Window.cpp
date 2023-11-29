@@ -106,14 +106,7 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
-	if (key == GLFW_KEY_Y)
-	{
-		theWindow-> muevex += 1.0;
-	}
-	if (key == GLFW_KEY_U)
-	{
-		theWindow-> muevex -= 1.0;
-	}
+
 	if ( key == GLFW_KEY_C && action == GLFW_PRESS )
 	{
 		theWindow->camara = !theWindow->camara;
@@ -135,6 +128,14 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		if (action == GLFW_PRESS) theWindow->flipper3 = true;
 		else theWindow->flipper3 = false;
+	}
+
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+		theWindow->interruptorFlippers = !theWindow->interruptorFlippers;
+	}
+
+	if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+		theWindow->interruptorSantuario = !theWindow->interruptorSantuario;
 	}
 
 	if (key >= 0 && key < 1024)

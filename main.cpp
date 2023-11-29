@@ -635,8 +635,8 @@ int main()
 	
 	// luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f,
-		0.0f, 0.0f, -1.0f);
+		0.3f, 0.3f,
+		0.0f, -1.0f, 0.0f);
 	
 	// contador de luces puntuales
 	unsigned int pointLightCount = 0;
@@ -650,47 +650,39 @@ int main()
 	std::map<std::string, PointLight> pointLightsMapAux;
 	std::map<std::string, SpotLight> spotLightsMapAux;
 
-	// ================== Linterna ==================
-	spotLightsMap["linterna"] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.0f, 2.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
-		0.8f, 0.05f, 0.01f,
-		5.0f);
-	spotLightCount++;
-
 	// ================== Luz Todo Tablero ==================
 	// ================== Luz Santuario ==================
-	spotLightsMap["santuario"] = SpotLight(
+	pointLightsMap["santuario"] = PointLight(
 		1.0f, 0.0f, 0.0f,
-		2.0f, 2.0f,
-		85.0f, 250.0f, 75.0f,
-		0.0f, -1.0f, 0.0f,
-		//0.008f, 0.003f, 0.004f,
-		0.5f, 0.001f, 0.0004f,
-		50.0f
+		1.5f, 1.5f,
+		83.0f, 180.0f, 65.0f,
+		0.0001f, 0.003f, 0.004f
 	);
-	spotLightCount++;
+	pointLightCount++;
 
 	// ================== Luz Azul flippers ==================
 	pointLightsMap["flippers"] = PointLight(
 		0.0f, 1.0f, 1.0f,
-		0.5f, 0.5f,
-		78.0f, 180.0f, 227.0f,
-		0.01f, 0.001f, 0.0004f
+		2.5f, 2.5f,
+		83.0f, 175.0f, 227.0f,
+		0.0001f, 0.003f, 0.004f
 	);
 	pointLightCount++;
 
 	// ================== Luz Morada Avatar ==================
 	spotLightsMap["avatar"] = SpotLight(
 		1.0f, 0.0f, 0.0f,
-		0.5f, 0.5f,
+		1.5f, 1.5f,
 		90.0f, 240.0f + 60.0f, 427.0f, // posicion inicial del avatar
 		0.0f, -1.0f, 0.0f,
-		0.01f, 0.001f, 0.0004f, 
+		0.001f, 0.001f, 0.0004f, 
 		15.0f
 	);
 	spotLightCount++;
+
+	// ================== copiando el contenido de los mapas a los aux ==================
+	pointLightsMapAux = pointLightsMap;
+	spotLightsMapAux = spotLightsMap;
 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -983,6 +975,8 @@ int main()
 	printf("Mover paleta principal derecha:     Presionar tecla '1'\n");
 	printf("Mover paleta principal izquierda:   Presionar tecla '2'\n");
 	printf("Mover paleta secundaria:            Presionar tecla '3'\n");
+	printf("Apagar la luz de los flippers:      Presionar tecla 'Z'\n");
+	printf("Apagar la luz del santuario:        Presionar tecla 'X'\n");
 	
 	// =================================== Loop mientras no se cierra la ventana  ===================================
 	while (!mainWindow.getShouldClose())
@@ -1028,11 +1022,6 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera->getCameraPosition().x, camera->getCameraPosition().y, camera->getCameraPosition().z);
 
-		// luz ligada a la cámara de tipo flash
-		glm::vec3 lowerLight = camera->getCameraPosition();
-		lowerLight.y -= 0.3f;
-		spotLightsMap["linterna"].SetFlash(lowerLight, camera->getCameraDirection());
-
 		// =================== Paso de map a array =================== 
 		// pasamos el contenido de los mapas a las listas
 		Map_T::toArray(pointLightsMap, pointLights, MAX_POINT_LIGHTS);
@@ -1042,6 +1031,31 @@ int main()
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
+
+
+		// ================== control de las luces ==================
+		// solo si la luz existe
+		// si el interruptor esta en encendido y existe la luz, se elimina
+		if (mainWindow.getInterruptorFlippers() && pointLightsMap.count("flippers") > 0) {
+			pointLightsMap.erase("flippers");
+			--pointLightCount;
+		}
+		// si el interruptor esta apagado y no existe la luz, se agrega de nuevo la llave
+		// se agregan estas validaciones para que no entre al else en cada iterecion y nos sume + 1 en
+		// la variable pointLightCount
+		else if (!mainWindow.getInterruptorFlippers() && pointLightsMap.count("flippers") == 0) {
+			pointLightsMap["flippers"] = pointLightsMapAux["flippers"];
+			++pointLightCount;
+		}
+
+		if (mainWindow.getInterruptorSantuario() && pointLightsMap.count("santuario") > 0) {
+			pointLightsMap.erase("santuario");
+			--pointLightCount;
+		} else if (!mainWindow.getInterruptorSantuario() && pointLightsMap.count("santuario") == 0) {
+			pointLightsMap["santuario"] = pointLightsMapAux["santuario"];
+			++pointLightCount;
+		}
+
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -1739,7 +1753,7 @@ void iniciaAnimacionKeyframe() {
 			playIndex = 0;
 			i_curr_steps = 0;
 			reproduciranimacion++;
-			printf("\n acciona la palanca con el click derecho para habilitar la animación'\n");
+			//printf("\n acciona la palanca con el click derecho para habilitar la animación'\n");
 			habilitaranimacion = 0;
 
 		}
@@ -1754,7 +1768,7 @@ void iniciaAnimacionKeyframe() {
 void reseteaAnimacionKeyframe() {
 	if (habilitaranimacion < 1 && reproduciranimacion>0)
 	{
-		printf("Ya puedes reproducir de nuevo la animacion soltando el click derecho'\n");
+		//printf("Ya puedes reproducir de nuevo la animacion soltando el click derecho'\n");
 		reproduciranimacion = 0;
 	}
 }
