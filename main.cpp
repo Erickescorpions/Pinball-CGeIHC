@@ -602,9 +602,6 @@ int main()
 	Model piernasGojo_M = Model();
 	piernasGojo_M.LoadModel("Models/Gojo/piernasGojo.obj");
 
-	esfera = Model();
-	esfera.LoadModel("Models/Gojo/esfera.obj");
-
 	Model dedoSukuna_M = Model();
 	dedoSukuna_M.LoadModel("Models/DedoSukuna/DedoSukuna.obj");
 
