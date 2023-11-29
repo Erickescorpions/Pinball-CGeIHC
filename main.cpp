@@ -412,7 +412,7 @@ float calcularPosicionY(float tiempo) {
 void inputKeyframes(bool* keys);
 
 //variables para keyframes
-float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
+float reproduciranimacion = 1, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
 
 bool animacion = false;
 
@@ -708,7 +708,7 @@ int main()
 
 	const float sueltaPalancaOffset = 2.0f;
 	const float expandeResorteOffset = 2.0f;
-	bool animacionResorteExpande = true;
+	bool animacionResorteExpande = false;
 
 
 	// variables para la camara del avatar
