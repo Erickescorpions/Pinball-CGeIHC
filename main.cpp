@@ -1089,8 +1089,8 @@ int main()
 		// Descomentar lineas de abajo para ver el resultado final, para establecer posiciones
 		// dejarlas comentadas
 		
-		/*model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
