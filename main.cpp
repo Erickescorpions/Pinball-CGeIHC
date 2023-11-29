@@ -691,21 +691,25 @@ int main()
 	// motor de sonido
 	irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice();
 
-	float volumen2d = 0.01f; // Por ejemplo, establecer el volumen al 70%
-	SoundEngine->setSoundVolume(volumen2d);
-
 	if (!SoundEngine)
-		return 0; // error starting up the engine
+		return 0; 
+
+	SoundEngine->setSoundVolume(0.2f);
 
 	// sonido 2D
-	SoundEngine->play2D("audio/JujutsuKaisen[OST].mp3", true);
+	irrklang::ISound* sonido2D = SoundEngine->play2D("audio/JujutsuKaisen[OST].mp3", true);
+
+	if (sonido2D) {
+		float volumen2d = 0.01f;
+		sonido2D->setVolume(volumen2d);
+	}
 
 	irrklang::ISound* sonidoPinball = SoundEngine->play3D("audio/PINBALL.mp3",
 		irrklang::vec3df(83.0f, 180.0f, 65.0f), true, false, true);
 
 	if (sonidoPinball) {
-		sonidoPinball->setMinDistance(1000.0f);
-		float volumen3d = 1.0f; // Por ejemplo, establecer el volumen al 50%
+		sonidoPinball->setMinDistance(200.0f);
+		float volumen3d = 0.9f; 
 		sonidoPinball->setVolume(volumen3d);
 	}
 
